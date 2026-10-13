@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050914">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ILYМ PIZZA — Menu</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon.png">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;width:100%;background:#050914}
+body{
+ min-height:100vh;min-height:100dvh;padding:24px 14px 30px;
+ font-family:Arial,Helvetica,sans-serif;color:#f6f8fc;
+ background:radial-gradient(ellipse at 50% -15%,#193357 0%,#0a1323 42%,#03060c 82%);
+ overflow-x:hidden
+}
+header{text-align:center;margin:10px auto 28px}
+.logo{font-weight:950;letter-spacing:4px;font-size:clamp(30px,8vw,48px);text-shadow:0 4px 24px #0008}
+.logo b{color:#ffc928;font-style:italic}
+header p{margin-top:8px;color:#98a8c1;font-size:11px;letter-spacing:3px}
+.rule{width:86px;height:3px;border-radius:9px;background:#ffc928;margin:16px auto 0;box-shadow:0 0 18px #ffc92866}
+
+.menu{width:100%;max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.dish{
+ appearance:none;display:block;min-width:0;overflow:hidden;text-align:left;
+ border:1px solid #253751;border-radius:17px;
+ background:linear-gradient(145deg,#14243a,#0a1120);color:white;
+ cursor:pointer;box-shadow:0 12px 28px #0005;
+ transition:transform .22s,border-color .22s,box-shadow .22s;
+ padding:0;-webkit-tap-highlight-color:transparent
+}
+.dish:hover,.dish:focus-visible{
+ border-color:#ffc928;box-shadow:0 0 0 1px #ffc92844,0 15px 35px #0008;
+ outline:none;transform:translateY(-3px)
+}
+.dish:active{transform:scale(.97)}
+.dish img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#111827}
+.dish span{display:block;text-align:center;padding:14px 6px;color:#ffc928;font-weight:800;letter-spacing:1.2px;font-size:clamp(12px,3vw,15px)}
+
+.cart-bar{max-width:760px;margin:-12px auto 22px;display:flex;justify-content:center}
+.cart-bar button{border:1px solid #ffc928;background:#ffc928;color:#101522;font-weight:900;padding:12px 20px;border-radius:13px;font-size:14px;cursor:pointer}
+.cart-bar span{display:inline-flex;align-items:center;justify-content:center;background:#101522;color:#ffc928;border-radius:99px;min-width:24px;height:24px;margin-left:7px;padding:0 6px}
+
+.location-card{width:100%;max-width:760px;margin:24px auto 0;padding:18px;border:1px solid #253751;border-radius:18px;background:linear-gradient(145deg,#14243a,#0a1120);text-align:center;box-shadow:0 12px 28px #0005}
+.location-card h2{font-size:18px;color:#ffc928;margin-bottom:8px;letter-spacing:1px}
+.location-card p{font-size:13px;line-height:1.6;color:#aab8ce;margin-bottom:14px}
+.location-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.location-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:12px 16px;border-radius:12px;text-decoration:none;font-size:13px;font-weight:800;background:#ffc928;color:#101522;border:1px solid #ffc928}
+.location-link.secondary{background:#101a2b;color:#f6f8fc;border-color:#344762}
+footer{text-align:center;color:#71829d;font-size:10px;letter-spacing:2px;margin:28px auto 0}
+
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#ffc928;color:#101522;padding:12px 20px;border-radius:12px;font-weight:800;box-shadow:0 8px 30px #0008;transition:.2s;max-width:90vw;text-align:center;z-index:100}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:18px}
+.modal.open{display:flex}
+.modal-backdrop{position:absolute;inset:0;background:#000c;backdrop-filter:blur(9px)}
+.modal-card{position:relative;z-index:1;width:min(100%,460px);max-height:92dvh;overflow:auto;border:1px solid #334764;border-radius:22px;background:linear-gradient(155deg,#14243a,#070c16);box-shadow:0 25px 90px #000b;animation:pop .2s ease}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.close{position:absolute;right:12px;top:12px;z-index:2;width:40px;height:40px;border:1px solid #ffffff44;border-radius:50%;background:#050914cc;color:#fff;font-size:28px;cursor:pointer}
+.modal-image{display:block;width:100%;height:220px;object-fit:cover;background:#101827}
+.modal-content{padding:20px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:#ffc928;font-weight:800}
+.modal-content h2{font-size:25px;margin:7px 0;color:#ffc928}
+.description{color:#aab8ce;font-size:13px;margin-bottom:18px}
+.modal-content label{display:block;font-size:12px;color:#c5d0e1;margin:14px 0 7px}
+.modal-content select,.quantity-row input,.customer-input{width:100%;border:1px solid #344862;background:#08111f;color:#fff;border-radius:10px;padding:12px;font-size:15px;outline:none}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:15px 0;margin-top:8px;border-bottom:1px solid #263750;color:#aab8ce}
+.price-row strong{color:#ffc928;font-size:21px}
+.quantity-row{display:flex;gap:10px}
+.quantity-row button{width:48px;flex-shrink:0;border:1px solid #344862;border-radius:10px;background:#17263d;color:#ffc928;font-size:24px;cursor:pointer}
+.quantity-row input{text-align:center}
+.order-button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:12px;background:#25d366;color:#062b14;font-size:15px;font-weight:900;cursor:pointer}
+.order-button:hover{filter:brightness(1.07)}
+.cart-items{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.cart-line{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px;border:1px solid #2a3d58;border-radius:12px;background:#0a1322}
+.cart-line strong{color:#ffc928;font-size:14px}
+.cart-line small{display:block;color:#aab8ce;margin-top:4px}
+.cart-line-actions{display:flex;align-items:center;gap:7px;margin-top:8px;flex-wrap:wrap}
+.cart-line-actions button{border:1px solid #344862;background:#17263d;color:#fff;border-radius:8px;padding:5px 9px;cursor:pointer}
+.cart-line-actions .remove{color:#ff9a9a}
+.empty-cart{color:#aab8ce;font-size:13px;padding:14px 0}
+.customer-input{font-size:14px}
+.cart-card .modal-content{padding-top:28px}
+.small-note{font-size:10px;line-height:1.5;color:#8191aa;margin-top:12px}
+body.modal-open{overflow:hidden}
+
+@media(min-width:620px){.menu{grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.dish span{padding:15px 5px}}
+@media(max-height:700px){.modal-image{height:150px}.modal-content{padding:15px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4b6cb7">
+<link rel="apple-touch-icon" href="icon.png"></head>
+
+<body>
+<header>
+ <div class="logo">ILYМ <b>PIZZA</b></div>
+ <p>FRESH FOOD · GOOD MOOD</p>
+ <div class="rule"></div>
+</header>
+
+<div class="cart-bar">
+ <button id="openCart" type="button">🛒 Voir le panier <span id="cartCount">0</span></button>
+</div>
+
+<main class="menu">
+ <button class="dish" type="button" data-name="Poutine">
+  <img loading="lazy" src="https://i.ibb.co/nqZw4rNF/d1825eba0664093abdb14ade79d7d444.jpg" alt="Poutine">
+  <span>POUTINE</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Ma9loub">
+  <img loading="lazy" src="https://i.ibb.co/C3QJ42Jq/images-2.jpg" alt="Ma9loub">
+  <span>MA9LOUB</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Plat">
+  <img loading="lazy" src="https://i.ibb.co/D0JFQ9M/Screenshot-20261012-230303-Chat-GPT.jpg" alt="Plat">
+  <span>PLAT</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Tacos">
+  <img loading="lazy" src="https://i.ibb.co/Fk8vJ64z/Screenshot-20261012-230250-Chat-GPT.jpg" alt="Tacos">
+  <span>TACOS</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Burger">
+  <img loading="lazy" src="https://i.ibb.co/TqY7kPWB/Screenshot-20261012-230244-Chat-GPT.jpg" alt="Burger">
+  <span>BURGER</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Pizza">
+  <img loading="lazy" src="https://i.ibb.co/J8BzM8Y/Screenshot-20261012-230238-Chat-GPT.jpg" alt="Pizza">
+  <span>PIZZA</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Fajitas">
+  <img loading="lazy" src="https://i.ibb.co/mrVTDP9j/Easy-Chicken-Fajitas-Horiz.jpg" alt="Fajitas">
+  <span>FAJITAS</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Sandwich">
+  <img loading="lazy" src="https://i.ibb.co/nqMnsPSs/Pizza-Baciata-1.jpg" alt="Sandwich">
+  <span>SANDWICH</span>
+ </button>
+
+ <button class="dish" type="button" data-name="Boissons">
+  <img loading="lazy" src="https://cdn-icons-png.flaticon.com/512/3050/3050158.png" alt="Boissons">
+  <span>BOISSONS</span>
+ </button>
+</main>
+
+<section class="location-card" aria-label="Localisation du restaurant">
+ <h2>📍 NOUS TROUVER</h2>
+ <p>ILYМ PIZZA<br>CF7G+M24, Dahmouni, Tiaret, Algérie</p>
+ <div class="location-actions">
+  <a class="location-link" href="https://www.google.com/maps/search/?api=1&amp;query=CF7G%2BM24%2C%20Dahmouni%2C%20Algeria" target="_blank" rel="noopener noreferrer">📍 Voir sur Google Maps</a>
+  <a class="location-link secondary" href="https://www.google.com/maps/dir/?api=1&amp;destination=CF7G%2BM24%2C%20Dahmouni%2C%20Algeria" target="_blank" rel="noopener noreferrer">🧭 Itinéraire</a>
+ </div>
+</section>
+
+<footer>ILYМ PIZZA · BON APPÉTIT</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal" id="cartModal" aria-hidden="true">
+ <div class="modal-backdrop" data-cart-close="true"></div>
+ <section class="modal-card cart-card" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <button class="close" type="button" aria-label="Fermer" id="closeCart">×</button>
+  <div class="modal-content">
+   <p class="eyebrow">ILYМ PIZZA · COMMANDE</p>
+   <h2 id="cartTitle">Votre panier</h2>
+   <div id="cartItems" class="cart-items"><p class="empty-cart">Votre panier est vide.</p></div>
+   <div class="price-row"><span>Total estimé</span><strong id="cartTotal">0 DA</strong></div>
+   <label for="customerName">Nom (facultatif)</label>
+   <input id="customerName" class="customer-input" placeholder="Votre nom" maxlength="80">
+   <label for="customerAddress">Adresse / livraison (facultatif)</label>
+   <input id="customerAddress" class="customer-input" placeholder="Adresse ou retrait au restaurant" maxlength="180">
+   <button class="order-button" id="checkoutWhatsApp" type="button">Confirmer la commande sur WhatsApp</button>
+   <p class="small-note">Les prix sont indicatifs. Le restaurant confirmera la disponibilité et le total.</p>
+  </div>
+ </section>
+</div>
+
+<div class="modal" id="dishModal" aria-hidden="true">
+ <div class="modal-backdrop" data-close="true"></div>
+ <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <button class="close" type="button" aria-label="Fermer" id="closeModal">×</button>
+  <img id="modalImage" class="modal-image" alt="">
+  <div class="modal-content">
+   <p class="eyebrow">ILYМ PIZZA · MENU</p>
+   <h2 id="modalTitle">PIZZA</h2>
+   <p id="modalDescription" class="description">Choisissez votre option.</p>
+   <label for="variantSelect">Type / option</label>
+   <select id="variantSelect"></select>
+   <div class="price-row"><span>Prix estimé</span><strong id="modalPrice">— DA</strong></div>
+   <label for="quantity">Quantité</label>
+   <div class="quantity-row">
+    <button type="button" id="minusQty" aria-label="Diminuer">−</button>
+    <input id="quantity" type="number" min="1" max="20" value="1">
+    <button type="button" id="plusQty" aria-label="Augmenter">+</button>
+   </div>
+   <button class="order-button" id="orderButton" type="button">Ajouter au panier 🛒</button>
+   <p class="small-note">Le prix et les options sont indicatifs. Confirmez la commande avec le restaurant.</p>
+  </div>
+ </section>
+</div>
+
+<script>
+const toast=document.getElementById('toast');
+let toastTimer;
+
+function showToast(message){
+ toast.textContent=message;
+ toast.classList.add('show');
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>toast.classList.remove('show'),2200);
+}
+
+const menuData={
+ "Poutine":{
+  desc:"Poutine — choisissez votre recette.",
+  options:[["Poulet",400],["Mixte",500],["ILYМ",700]]
+ },
+ "Ma9loub":{
+  desc:"Ma9loub — choisissez votre recette.",
+  options:[["Simple",400],["Tunisia",450],["Mixte",500]]
+ },
+ "Plat":{
+  desc:"Plat accompagné de frites et salade.",
+  options:[["Poulet",500],["Foie",600],["Merguez",600],["Forestière",650],["Mixte",650]]
+ },
+ "Tacos":{
+  desc:"Tacos grillé — choisissez votre recette.",
+  options:[["Poulet",400],["Viande hachée",450],["Mixte",500]]
+ },
+ "Burger":{
+  desc:"Burger — choisissez votre recette.",
+  options:[["Classic",300],["Poulet",250],["Mixte",400]]
+ },
+ "Pizza":{
+  desc:"Pizza maison — choisissez votre taille et votre recette.",
+  options:[
+   ["Marguerite M",250],["Végétarienne M",300],["Poulet M",350],
+   ["Viande hachée M",350],["Thon M",350],["Merguez M",350],
+   ["Mixte M",400],["3 fromages M",450],["4 fromages M",500],
+   ["Fumée M",500],["4 Saisons M",600],["ILYМ M",700],
+   ["Poulet XL",1000],["Viande hachée XL",1000],["Thon XL",1000],
+   ["Merguez XL",1000],["Mixte XL",1200],["3 fromages XL",1300],
+   ["4 fromages XL",1500],["Fumée XL",1500],["4 Saisons XL",1600],["ILYМ XL",1800]
+  ]
+ },
+ "Fajitas":{
+  desc:"Fajitas — choisissez votre recette.",
+  options:[["Poulet",350],["Mixte",400]]
+ },
+ "Sandwich":{
+  desc:"Sandwich grillé — choisissez votre recette.",
+  options:[
+   ["Spécial poulet haché",250],["Spécial viande hachée",300],
+   ["Mariné",300],["Foie en sauce",300],
+   ["Merguez en sauce",350],["Mixte",400]
+  ]
+ },
+ "Boissons":{
+  desc:"Choisissez votre boisson fraîche.",
+  options:[
+   ["Jus",70],["Gaz",70],["L'eau",30],
+   ["Jus 1L",150],["Gaz 1L",150],["L'eau 1.5L",50]
+  ]
+ }
+};
+
+const modal=document.getElementById('dishModal');
+const modalImg=document.getElementById('modalImage');
+const modalTitle=document.getElementById('modalTitle');
+const modalDescription=document.getElementById('modalDescription');
+const variantSelect=document.getElementById('variantSelect');
+const modalPrice=document.getElementById('modalPrice');
+const quantity=document.getElementById('quantity');
+const cartModal=document.getElementById('cartModal');
+let currentDish='';
+
+function openDish(button){
+ currentDish=button.dataset.name;
+ const data=menuData[currentDish]||{desc:"Choisissez votre option.",options:[["Standard",0]]};
+
+ modalTitle.textContent=currentDish.toUpperCase();
+ modalDescription.textContent=data.desc;
+ modalImg.src=button.querySelector('img').src;
+ modalImg.alt=currentDish;
+ variantSelect.replaceChildren();
+
+ data.options.forEach((option,index)=>{
+  const opt=document.createElement('option');
+  opt.value=String(index);
+  opt.textContent=option[0]+' — '+option[1]+' DA';
+  opt.dataset.price=String(option[1]);
+  opt.dataset.label=option[0];
+  variantSelect.appendChild(opt);
+ });
+
+ quantity.value='1';
+ updatePrice();
+ modal.classList.add('open');
+ modal.setAttribute('aria-hidden','false');
+ document.body.classList.add('modal-open');
+}
+
+function updatePrice(){
+ const option=variantSelect.options[variantSelect.selectedIndex];
+ const price=option?Number(option.dataset.price):0;
+ const qty=Math.max(1,Math.min(20,Number(quantity.value)||1));
+ quantity.value=String(qty);
+ modalPrice.textContent=(price*qty).toLocaleString('fr-FR')+' DA';
+}
+
+function closeModal(){
+ modal.classList.remove('open');
+ modal.setAttribute('aria-hidden','true');
+ if(!cartModal.classList.contains('open'))document.body.classList.remove('modal-open');
+}
+
+document.querySelectorAll('.dish').forEach(button=>{
+ button.addEventListener('click',()=>openDish(button));
+});
+variantSelect.addEventListener('change',updatePrice);
+quantity.addEventListener('change',updatePrice);
+
+document.getElementById('minusQty').addEventListener('click',()=>{
+ quantity.value=String(Math.max(1,(Number(quantity.value)||1)-1));
+ updatePrice();
+});
+document.getElementById('plusQty').addEventListener('click',()=>{
+ quantity.value=String(Math.min(20,(Number(quantity.value)||1)+1));
+ updatePrice();
+});
+
+document.getElementById('closeModal').addEventListener('click',closeModal);
+modal.addEventListener('click',event=>{
+ if(event.target.dataset.close==='true')closeModal();
+});
+
+const cart=[];
+
+function openCart(){
+ renderCart();
+ cartModal.classList.add('open');
+ cartModal.setAttribute('aria-hidden','false');
+ document.body.classList.add('modal-open');
+}
+
+function closeCart(){
+ cartModal.classList.remove('open');
+ cartModal.setAttribute('aria-hidden','true');
+ if(!modal.classList.contains('open'))document.body.classList.remove('modal-open');
+}
+
+function renderCart(){
+ const wrap=document.getElementById('cartItems');
+ wrap.replaceChildren();
+
+ if(!cart.length){
+  const p=document.createElement('p');
+  p.className='empty-cart';
+  p.textContent='Votre panier est vide.';
+  wrap.appendChild(p);
+ }
+
+ cart.forEach((item,index)=>{
+  const line=document.createElement('div');
+  line.className='cart-line';
+
+  const info=document.createElement('div');
+  const title=document.createElement('strong');
+  title.textContent=item.name;
+  const detail=document.createElement('small');
+  detail.textContent=item.option+' · '+item.price.toLocaleString('fr-FR')+' DA / unité';
+  info.append(title,detail);
+
+  const amount=document.createElement('strong');
+  amount.textContent=(item.price*item.qty).toLocaleString('fr-FR')+' DA';
+
+  const actions=document.createElement('div');
+  actions.className='cart-line-actions';
+
+  const minus=document.createElement('button');
+  minus.textContent='−';
+  minus.setAttribute('aria-label','Diminuer');
+  minus.onclick=()=>{
+   item.qty--;
+   if(item.qty<=0)cart.splice(index,1);
+   renderCart();
+  };
+
+  const qty=document.createElement('span');
+  qty.textContent=String(item.qty);
+
+  const plus=document.createElement('button');
+  plus.textContent='+';
+  plus.setAttribute('aria-label','Augmenter');
+  plus.onclick=()=>{
+   if(item.qty<99)item.qty++;
+   renderCart();
+  };
+
+  const remove=document.createElement('button');
+  remove.className='remove';
+  remove.textContent='Supprimer';
+  remove.onclick=()=>{
+   cart.splice(index,1);
+   renderCart();
+  };
+
+  actions.append(minus,qty,plus,remove);
+  info.appendChild(actions);
+  line.append(info,amount);
+  wrap.appendChild(line);
+ });
+
+ const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+ document.getElementById('cartTotal').textContent=total.toLocaleString('fr-FR')+' DA';
+ document.getElementById('cartCount').textContent=String(cart.reduce((sum,item)=>sum+item.qty,0));
+}
+
+document.getElementById('orderButton').addEventListener('click',()=>{
+ const option=variantSelect.options[variantSelect.selectedIndex];
+ if(!option)return;
+
+ const qty=Math.max(1,Math.min(20,Number(quantity.value)||1));
+ const price=Number(option.dataset.price);
+ const label=option.dataset.label;
+ const existing=cart.find(item=>item.name===currentDish&&item.option===label&&item.price===price);
+
+ if(existing)existing.qty=Math.min(99,existing.qty+qty);
+ else cart.push({name:currentDish,option:label,price,qty});
+
+ closeModal();
+ renderCart();
+ showToast('تمت الإضافة إلى السلة 🛒');
+});
+
+document.getElementById('openCart').addEventListener('click',openCart);
+document.getElementById('closeCart').addEventListener('click',closeCart);
+cartModal.addEventListener('click',event=>{
+ if(event.target.dataset.cartClose==='true')closeCart();
+});
+
+document.addEventListener('keydown',event=>{
+ if(event.key==='Escape'){
+  closeModal();
+  closeCart();
+ }
+});
+
+document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
+ if(!cart.length){
+  showToast('السلة فارغة، زيد اختار واش تحب');
+  return;
+ }
+
+ const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+ let message='Bonjour ILYM PIZZA ! Je souhaite confirmer cette commande :\n';
+
+ cart.forEach((item,i)=>{
+  message+='\n'+(i+1)+'. '+item.name+' — '+item.option+' x'+item.qty+
+   ' = '+(item.price*item.qty).toLocaleString('fr-FR')+' DA';
+ });
+
+ message+='\n\nTotal estimé : '+total.toLocaleString('fr-FR')+' DA';
+
+ const name=document.getElementById('customerName').value.trim();
+ const address=document.getElementById('customerAddress').value.trim();
+ if(name)message+='\nNom : '+name;
+ if(address)message+='\nAdresse / livraison : '+address;
+ message+='\nMerci de confirmer la disponibilité et le total.';
+
+ window.open('https://wa.me/213674817474?text='+encodeURIComponent(message),'_blank');
+});
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+ window.addEventListener('load',()=>{
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+ });
+}
+</script>
+
+
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
+</body>
+</html>
