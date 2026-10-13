@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -298,7 +297,7 @@ body.modal-open{overflow:hidden}
   </section>
 </div>
 
-<!-- لوحة إدارة إظهار وإخفاء الأقسام -->
+<!-- لوحة إدارة إظهار وإخفاء الأطباق -->
 <div class="modal" id="adminModal" aria-hidden="true">
   <div class="modal-backdrop" data-admin-close="true"></div>
   <section class="modal-card admin-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
@@ -306,7 +305,7 @@ body.modal-open{overflow:hidden}
     <div class="modal-content">
       <p class="eyebrow">ILYM PIZZA · ADMINISTRATION</p>
       <h2 id="adminTitle">Gestion du menu</h2>
-      <p class="description">Cochez les catégories que vous voulez afficher aux clients.</p>
+      <p class="description">Cochez les plats et options que vous voulez afficher aux clients.</p>
       <div class="admin-actions">
         <button type="button" class="admin-button secondary" id="selectAll">Tout afficher</button>
         <button type="button" class="admin-button secondary" id="selectNone">Tout masquer</button>
@@ -355,22 +354,43 @@ const menuData={
 };
 
 const categories=[...document.querySelectorAll('.dish')];
-const categoryNames=categories.map(button=>button.dataset.name);
-const STORAGE_KEY='ilym_enabled_foods';
+const STORAGE_KEY='ilym_enabled_options';
 
-function getEnabledCategories(){
-  try{
-    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if(Array.isArray(saved)) return categoryNames.filter(name=>saved.includes(name));
-  }catch(e){}
-  return [...categoryNames];
+/* بناء مفتاح فريد لكل خيار داخل القسم: "Poutine|Poulet" */
+function buildOptionKey(category, optionLabel){
+  return category+'|'+optionLabel;
 }
 
-let enabledCategories=getEnabledCategories();
+/* استخراج كل المفاتيح الممكنة */
+function getAllOptionKeys(){
+  const keys=[];
+  Object.keys(menuData).forEach(cat=>{
+    menuData[cat].options.forEach(opt=>{
+      keys.push(buildOptionKey(cat, opt[0]));
+    });
+  });
+  return keys;
+}
 
+/* قراءة المفاتيح المفعّلة من التخزين المحلي */
+function getEnabledOptions(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(Array.isArray(saved)) return saved;
+  }catch(e){}
+  return getAllOptionKeys();
+}
+
+let enabledOptions=getEnabledOptions();
+
+/* إخفاء القسم فقط إذا لم يبقَ فيه أي خيار ظاهر */
 function applyEnabledCategories(){
   categories.forEach(button=>{
-    button.hidden=!enabledCategories.includes(button.dataset.name);
+    const cat=button.dataset.name;
+    const hasVisibleOption=menuData[cat].options.some(opt=>
+      enabledOptions.includes(buildOptionKey(cat, opt[0]))
+    );
+    button.hidden=!hasVisibleOption;
   });
 }
 
@@ -391,13 +411,23 @@ let currentDish='';
 function openDish(button){
   currentDish=button.dataset.name;
   const data=menuData[currentDish];
-  if(!data||!enabledCategories.includes(currentDish)) return;
+  if(!data) return;
+
+  /* التحقق من وجود خيار ظاهر واحد على الأقل */
+  const visibleOptions=data.options.filter(opt=>
+    enabledOptions.includes(buildOptionKey(currentDish, opt[0]))
+  );
+  if(!visibleOptions.length) return;
+
   modalTitle.textContent=currentDish.toUpperCase();
   modalDescription.textContent=data.desc;
   modalImg.src=button.querySelector('img').src;
   modalImg.alt=currentDish;
+
   variantSelect.replaceChildren();
   data.options.forEach((option,index)=>{
+    const key=buildOptionKey(currentDish, option[0]);
+    if(!enabledOptions.includes(key)) return; /* تجاهل الخيار المخفي */
     const opt=document.createElement('option');
     opt.value=String(index);
     opt.textContent=option[0]+' — '+option[1]+' DA';
@@ -405,6 +435,7 @@ function openDish(button){
     opt.dataset.label=option[0];
     variantSelect.appendChild(opt);
   });
+
   quantity.value='1';
   updatePrice();
   modal.classList.add('open');
@@ -535,7 +566,6 @@ document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
 /* الدخول السري: الضغط على الشعار 5 ثوانٍ */
 const secretTrigger=document.getElementById('secretAdminTrigger');
 let pressTimer=null;
-let pressTriggered=false;
 
 function cancelLongPress(){
   if(pressTimer!==null){clearTimeout(pressTimer);pressTimer=null;}
@@ -543,10 +573,8 @@ function cancelLongPress(){
 function startLongPress(event){
   if(event.type==='contextmenu')event.preventDefault();
   cancelLongPress();
-  pressTriggered=false;
   pressTimer=setTimeout(()=>{
     pressTimer=null;
-    pressTriggered=true;
     openPasswordModal();
   },5000);
 }
@@ -591,23 +619,38 @@ document.getElementById('passwordForm').addEventListener('submit',event=>{
   }
 });
 
-/* لوحة إدارة إظهار وإخفاء الأقسام */
+/* لوحة إدارة إظهار وإخفاء الأطباق */
 function renderAdminCategories(){
   const wrap=document.getElementById('adminCategories');
   wrap.replaceChildren();
-  categoryNames.forEach(name=>{
-    const label=document.createElement('label');
-    label.className='admin-category';
-    const checkbox=document.createElement('input');
-    checkbox.type='checkbox';
-    checkbox.value=name;
-    checkbox.checked=enabledCategories.includes(name);
-    const text=document.createElement('span');
-    text.textContent=name;
-    label.append(checkbox,text);
-    wrap.appendChild(label);
+
+  Object.keys(menuData).forEach(cat=>{
+    /* عنوان القسم */
+    const title=document.createElement('div');
+    title.style.cssText='font-weight:900;color:#ffc928;margin:14px 0 2px;font-size:13px;letter-spacing:1.5px;';
+    title.textContent=cat.toUpperCase();
+    wrap.appendChild(title);
+
+    menuData[cat].options.forEach(opt=>{
+      const key=buildOptionKey(cat, opt[0]);
+      const label=document.createElement('label');
+      label.className='admin-category';
+
+      const checkbox=document.createElement('input');
+      checkbox.type='checkbox';
+      checkbox.value=key;
+      checkbox.checked=enabledOptions.includes(key);
+
+      const text=document.createElement('span');
+      text.textContent=opt[0]+' — '+opt[1]+' DA';
+      text.style.fontSize='13px';
+
+      label.append(checkbox,text);
+      wrap.appendChild(label);
+    });
   });
 }
+
 function openAdminModal(){
   renderAdminCategories();
   adminModal.classList.add('open');
@@ -631,8 +674,8 @@ document.getElementById('selectNone').addEventListener('click',()=>{
   document.querySelectorAll('#adminCategories input').forEach(input=>input.checked=false);
 });
 document.getElementById('saveAdmin').addEventListener('click',()=>{
-  enabledCategories=[...document.querySelectorAll('#adminCategories input:checked')].map(input=>input.value);
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(enabledCategories));}
+  enabledOptions=[...document.querySelectorAll('#adminCategories input:checked')].map(input=>input.value);
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(enabledOptions));}
   catch(e){showToast('Impossible de sauvegarder sur cet appareil');return;}
   applyEnabledCategories();
   closeAdminModal();
