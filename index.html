@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+<html lang="fr"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050914">
@@ -173,6 +171,13 @@ body.modal-open{overflow:hidden}
 @media(max-height:700px){.modal-image{height:150px}.modal-content{padding:15px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4b6cb7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon.png">
 </head>
 
 <body>
@@ -293,7 +298,7 @@ body.modal-open{overflow:hidden}
       <p class="description">Entrez votre code numérique pour continuer.</p>
       <form id="passwordForm">
         <label for="adminPassword">Code secret</label>
-        <input class="admin-input" id="adminPassword" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="20" autocomplete="current-password" placeholder="••••••••" required>
+        <input class="admin-input" id="adminPassword" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="20" autocomplete="current-password" placeholder="••••••••" required="">
         <p id="passwordError" class="admin-error" aria-live="polite"></p>
         <button class="admin-button" type="submit">Déverrouiller</button>
       </form>
@@ -704,5 +709,15 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
-</body>
-</html>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker enregistré !'))
+        .catch(err => console.error('Erreur SW :', err));
+    });
+  }
+</script>
+</body></html>
