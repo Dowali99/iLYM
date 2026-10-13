@@ -1,13 +1,19 @@
+
 {
-  "name": "iLYM",
-  "short_name": "iLYM",
-  "start_url": "./index.html",
+  "id": "./",
+  "name": "ILYM PIZZA",
+  "short_name": "ILYM",
+  "description": "Menu et commande en ligne - ILYM PIZZA, Dahmouni, Tiaret",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#1a1c20",
-  "theme_color": "#4b6cb7",
+  "orientation": "portrait",
+  "background_color": "#050914",
+  "theme_color": "#050914",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "./icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
