@@ -141,10 +141,12 @@ footer{text-align:center;color:#71829d;font-size:10px;letter-spacing:2px;margin:
 .empty-cart{color:#aab8ce;font-size:13px;padding:14px 0}
 .customer-input{font-size:14px}
 .cart-card .modal-content{padding-top:28px}
-.delivery-label{
- display:flex!important;align-items:center;gap:10px;margin:16px 0!important;cursor:pointer
+.delivery-info{
+ display:flex;align-items:center;gap:10px;margin:16px 0;padding:12px 14px;
+ border:1px dashed #ffc92866;border-radius:12px;background:#1a2437;
+ color:#ffc928;font-size:13px;font-weight:800;line-height:1.4
 }
-.delivery-label input{width:20px;height:20px;accent-color:#ffc928}
+.delivery-info .icon{font-size:20px;flex-shrink:0}
 .small-note{font-size:10px;line-height:1.5;color:#8191aa;margin-top:12px}
 body.modal-open{overflow:hidden}
 
@@ -236,16 +238,19 @@ body.modal-open{overflow:hidden}
       <p class="eyebrow">ILYM PIZZA · COMMANDE</p>
       <h2 id="cartTitle">Votre panier</h2>
       <div id="cartItems" class="cart-items"><p class="empty-cart">Votre panier est vide.</p></div>
-      <label class="delivery-label" for="deliveryChoice">
-        <input id="deliveryChoice" type="checkbox"><span>🚚 Livraison à domicile — +100 DA pour toute la commande</span>
-      </label>
+
+      <div class="delivery-info">
+        <span class="icon">🚚</span>
+        <span>Frais de livraison fixes : <b>100 DA</b> — ajoutés automatiquement à chaque commande.</span>
+      </div>
+
       <div class="price-row"><span>Sous-total</span><strong id="cartSubtotal">0 DA</strong></div>
       <div class="price-row"><span>Frais de livraison</span><strong id="deliveryFee">0 DA</strong></div>
-      <div class="price-row"><span>Total estimé</span><strong id="cartTotal">0 DA</strong></div>
+      <div class="price-row"><span>Total à payer</span><strong id="cartTotal">0 DA</strong></div>
       <label for="customerName">Nom (facultatif)</label>
       <input id="customerName" class="customer-input" placeholder="Votre nom" maxlength="80">
       <label for="customerAddress">Adresse / livraison</label>
-      <input id="customerAddress" class="customer-input" placeholder="Adresse ou retrait au restaurant" maxlength="180">
+      <input id="customerAddress" class="customer-input" placeholder="Adresse de livraison" maxlength="180">
       <button class="order-button" id="checkoutWhatsApp" type="button">Confirmer la commande sur WhatsApp</button>
       <p class="small-note">Les prix sont indicatifs. Le restaurant confirmera la disponibilité et le total.</p>
     </div>
@@ -320,6 +325,7 @@ body.modal-open{overflow:hidden}
 
 <script>
 const ADMIN_CODE = '14142027';
+const DELIVERY_FEE = 100; /* frais de livraison fixes */
 const toast = document.getElementById('toast');
 let toastTimer;
 
@@ -356,12 +362,10 @@ const menuData={
 const categories=[...document.querySelectorAll('.dish')];
 const STORAGE_KEY='ilym_enabled_options';
 
-/* بناء مفتاح فريد لكل خيار داخل القسم: "Poutine|Poulet" */
 function buildOptionKey(category, optionLabel){
   return category+'|'+optionLabel;
 }
 
-/* استخراج كل المفاتيح الممكنة */
 function getAllOptionKeys(){
   const keys=[];
   Object.keys(menuData).forEach(cat=>{
@@ -372,7 +376,6 @@ function getAllOptionKeys(){
   return keys;
 }
 
-/* قراءة المفاتيح المفعّلة من التخزين المحلي */
 function getEnabledOptions(){
   try{
     const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -383,7 +386,6 @@ function getEnabledOptions(){
 
 let enabledOptions=getEnabledOptions();
 
-/* إخفاء القسم فقط إذا لم يبقَ فيه أي خيار ظاهر */
 function applyEnabledCategories(){
   categories.forEach(button=>{
     const cat=button.dataset.name;
@@ -413,7 +415,6 @@ function openDish(button){
   const data=menuData[currentDish];
   if(!data) return;
 
-  /* التحقق من وجود خيار ظاهر واحد على الأقل */
   const visibleOptions=data.options.filter(opt=>
     enabledOptions.includes(buildOptionKey(currentDish, opt[0]))
   );
@@ -427,7 +428,7 @@ function openDish(button){
   variantSelect.replaceChildren();
   data.options.forEach((option,index)=>{
     const key=buildOptionKey(currentDish, option[0]);
-    if(!enabledOptions.includes(key)) return; /* تجاهل الخيار المخفي */
+    if(!enabledOptions.includes(key)) return;
     const opt=document.createElement('option');
     opt.value=String(index);
     opt.textContent=option[0]+' — '+option[1]+' DA';
@@ -513,15 +514,17 @@ function renderCart(){
     remove.onclick=()=>{cart.splice(index,1);renderCart();};
     actions.append(minus,qty,plus,remove);info.appendChild(actions);line.append(info,amount);wrap.appendChild(line);
   });
+
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
-  const delivery=document.getElementById('deliveryChoice').checked&&cart.length?100:0;
+  /* التوصيل ثابت: 100 DA إذا كانت السلة غير فارغة */
+  const delivery=cart.length?DELIVERY_FEE:0;
+
   document.getElementById('cartSubtotal').textContent=subtotal.toLocaleString('fr-FR')+' DA';
   document.getElementById('deliveryFee').textContent=delivery.toLocaleString('fr-FR')+' DA';
   document.getElementById('cartTotal').textContent=(subtotal+delivery).toLocaleString('fr-FR')+' DA';
   document.getElementById('cartCount').textContent=String(cart.reduce((sum,item)=>sum+item.qty,0));
 }
 
-document.getElementById('deliveryChoice').addEventListener('change',renderCart);
 document.getElementById('openCart').addEventListener('click',openCart);
 document.getElementById('closeCart').addEventListener('click',closeCart);
 cartModal.addEventListener('click',event=>{if(event.target.dataset.cartClose==='true')closeCart();});
@@ -541,29 +544,32 @@ document.getElementById('orderButton').addEventListener('click',()=>{
 document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
   if(!cart.length){showToast('السلة فارغة، زيد اختار واش تحب');return;}
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
-  const delivery=document.getElementById('deliveryChoice').checked?100:0;
+  const delivery=DELIVERY_FEE;
   const total=subtotal+delivery;
+
+  const address=document.getElementById('customerAddress').value.trim();
+  if(!address){
+    showToast('Ajoutez votre adresse de livraison');
+    document.getElementById('customerAddress').focus();
+    return;
+  }
+
   let message='Bonjour ILYM PIZZA ! Je souhaite confirmer cette commande :\n';
   cart.forEach((item,index)=>{
     message+='\n'+(index+1)+'. '+item.name+' — '+item.option+' x'+item.qty+' = '+
       (item.price*item.qty).toLocaleString('fr-FR')+' DA';
   });
   message+='\n\nSous-total : '+subtotal.toLocaleString('fr-FR')+' DA';
-  message+='\nLivraison : '+(delivery?'100 DA':'Retrait au restaurant — 0 DA');
+  message+='\nLivraison : '+delivery+' DA (fixe)';
   message+='\nTOTAL À PAYER : '+total.toLocaleString('fr-FR')+' DA';
   const name=document.getElementById('customerName').value.trim();
-  const address=document.getElementById('customerAddress').value.trim();
   if(name)message+='\nNom : '+name;
-  if(address)message+='\nAdresse / livraison : '+address;
-  if(delivery&&!address){
-    showToast('Ajoutez votre adresse de livraison');
-    document.getElementById('customerAddress').focus();return;
-  }
+  message+='\nAdresse / livraison : '+address;
   message+='\nMerci de confirmer la disponibilité et le total.';
   window.open('https://wa.me/213674817474?text='+encodeURIComponent(message),'_blank');
 });
 
-/* الدخول السري: الضغط على الشعار 5 ثوانٍ */
+/* الدخول السري: الضغط على الشعار 3 ثوانٍ */
 const secretTrigger=document.getElementById('secretAdminTrigger');
 let pressTimer=null;
 
@@ -576,7 +582,7 @@ function startLongPress(event){
   pressTimer=setTimeout(()=>{
     pressTimer=null;
     openPasswordModal();
-  },5000);
+  },3000); /* ← 3 ثواني */
 }
 secretTrigger.addEventListener('pointerdown',startLongPress);
 secretTrigger.addEventListener('pointerup',cancelLongPress);
@@ -625,7 +631,6 @@ function renderAdminCategories(){
   wrap.replaceChildren();
 
   Object.keys(menuData).forEach(cat=>{
-    /* عنوان القسم */
     const title=document.createElement('div');
     title.style.cssText='font-weight:900;color:#ffc928;margin:14px 0 2px;font-size:13px;letter-spacing:1.5px;';
     title.textContent=cat.toUpperCase();
