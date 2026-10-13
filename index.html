@@ -15,196 +15,90 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%;width:100%;background:#050914}
 body{
-  min-height:100vh;
-  min-height:100dvh;
-  padding:24px 14px 100px;
-  font-family:Arial,Helvetica,sans-serif;
-  color:#f6f8fc;
-  background:radial-gradient(ellipse at 50% -15%,#193357 0%,#0a1323 42%,#03060c 82%);
-  overflow-x:hidden
+ min-height:100vh;min-height:100dvh;padding:24px 14px 100px;
+ font-family:Arial,Helvetica,sans-serif;color:#f6f8fc;
+ background:radial-gradient(ellipse at 50% -15%,#193357 0%,#0a1323 42%,#03060c 82%);
+ overflow-x:hidden
 }
 header{text-align:center;margin:10px auto 28px}
-.logo{font-weight:950;letter-spacing:4px;font-size:clamp(30px,8vw,48px);text-shadow:0 4px 24px #0008}
+.logo{
+ font-weight:950;letter-spacing:4px;font-size:clamp(30px,8vw,48px);
+ text-shadow:0 4px 24px #0008;user-select:none;-webkit-user-select:none;
+ touch-action:manipulation;cursor:pointer
+}
 .logo b{color:#ffc928;font-style:italic}
 header p{margin-top:8px;color:#98a8c1;font-size:11px;letter-spacing:3px}
 .rule{width:86px;height:3px;border-radius:9px;background:#ffc928;margin:16px auto 0;box-shadow:0 0 18px #ffc92866}
-
 .menu{
-  width:100%;
-  max-width:760px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px
+ width:100%;max-width:760px;margin:auto;display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));gap:14px
 }
 .dish{
-  appearance:none;
-  display:block;
-  min-width:0;
-  overflow:hidden;
-  text-align:left;
-  border:1px solid #253751;
-  border-radius:17px;
-  background:linear-gradient(145deg,#14243a,#0a1120);
-  color:white;
-  cursor:pointer;
-  box-shadow:0 12px 28px #0005;
-  transition:transform .22s,border-color .22s,box-shadow .22s;
-  padding:0;
-  -webkit-tap-highlight-color:transparent
+ appearance:none;display:block;min-width:0;overflow:hidden;text-align:left;
+ border:1px solid #253751;border-radius:17px;
+ background:linear-gradient(145deg,#14243a,#0a1120);color:white;cursor:pointer;
+ box-shadow:0 12px 28px #0005;transition:transform .22s,border-color .22s,box-shadow .22s;
+ padding:0;-webkit-tap-highlight-color:transparent
 }
 .dish:hover,.dish:focus-visible{
-  border-color:#ffc928;
-  box-shadow:0 0 0 1px #ffc92844,0 15px 35px #0008;
-  outline:none;
-  transform:translateY(-3px)
+ border-color:#ffc928;box-shadow:0 0 0 1px #ffc92844,0 15px 35px #0008;
+ outline:none;transform:translateY(-3px)
 }
 .dish:active{transform:scale(.97)}
-.dish img{
-  display:block;
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  background:#111827
-}
+.dish img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#111827}
 .dish span{
-  display:block;
-  text-align:center;
-  padding:14px 6px;
-  color:#ffc928;
-  font-weight:800;
-  letter-spacing:1.2px;
-  font-size:clamp(12px,3vw,15px)
+ display:block;text-align:center;padding:14px 6px;color:#ffc928;
+ font-weight:800;letter-spacing:1.2px;font-size:clamp(12px,3vw,15px)
 }
-
-/* السلة تبقى ثابتة في الشاشة أثناء النزول */
+.dish[hidden]{display:none!important}
 .cart-bar{
-  position:fixed;
-  right:16px;
-  bottom:calc(20px + env(safe-area-inset-bottom));
-  z-index:40;
-  margin:0;
-  display:flex;
-  justify-content:center;
-  width:auto;
-  max-width:calc(100% - 32px)
+ position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));
+ z-index:40;margin:0;display:flex;justify-content:center;width:auto;max-width:calc(100% - 32px)
 }
 .cart-bar button{
-  border:1px solid #ffc928;
-  background:#ffc928;
-  color:#101522;
-  font-weight:900;
-  padding:13px 18px;
-  border-radius:50px;
-  font-size:14px;
-  cursor:pointer;
-  box-shadow:0 6px 25px #0009
+ border:1px solid #ffc928;background:#ffc928;color:#101522;font-weight:900;
+ padding:13px 18px;border-radius:50px;font-size:14px;cursor:pointer;box-shadow:0 6px 25px #0009
 }
 .cart-bar span{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  background:#101522;
-  color:#ffc928;
-  border-radius:99px;
-  min-width:24px;
-  height:24px;
-  margin-left:7px;
-  padding:0 6px
+ display:inline-flex;align-items:center;justify-content:center;background:#101522;color:#ffc928;
+ border-radius:99px;min-width:24px;height:24px;margin-left:7px;padding:0 6px
 }
-
 .location-card{
-  width:100%;
-  max-width:760px;
-  margin:24px auto 0;
-  padding:18px;
-  border:1px solid #253751;
-  border-radius:18px;
-  background:linear-gradient(145deg,#14243a,#0a1120);
-  text-align:center;
-  box-shadow:0 12px 28px #0005
+ width:100%;max-width:760px;margin:24px auto 0;padding:18px;border:1px solid #253751;
+ border-radius:18px;background:linear-gradient(145deg,#14243a,#0a1120);
+ text-align:center;box-shadow:0 12px 28px #0005
 }
 .location-card h2{font-size:18px;color:#ffc928;margin-bottom:8px;letter-spacing:1px}
 .location-card p{font-size:13px;line-height:1.6;color:#aab8ce;margin-bottom:14px}
 .location-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .location-link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  min-height:44px;
-  padding:12px 16px;
-  border-radius:12px;
-  text-decoration:none;
-  font-size:13px;
-  font-weight:800;
-  background:#ffc928;
-  color:#101522;
-  border:1px solid #ffc928
+ display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;
+ padding:12px 16px;border-radius:12px;text-decoration:none;font-size:13px;font-weight:800;
+ background:#ffc928;color:#101522;border:1px solid #ffc928
 }
 .location-link.secondary{background:#101a2b;color:#f6f8fc;border-color:#344762}
 footer{text-align:center;color:#71829d;font-size:10px;letter-spacing:2px;margin:28px auto 0}
-
 #toast{
-  position:fixed;
-  left:50%;
-  bottom:90px;
-  transform:translate(-50%,18px);
-  opacity:0;
-  pointer-events:none;
-  background:#ffc928;
-  color:#101522;
-  padding:12px 20px;
-  border-radius:12px;
-  font-weight:800;
-  box-shadow:0 8px 30px #0008;
-  transition:.2s;
-  max-width:90vw;
-  text-align:center;
-  z-index:100
+ position:fixed;left:50%;bottom:90px;transform:translate(-50%,18px);opacity:0;
+ pointer-events:none;background:#ffc928;color:#101522;padding:12px 20px;border-radius:12px;
+ font-weight:800;box-shadow:0 8px 30px #0008;transition:.2s;max-width:90vw;
+ text-align:center;z-index:200
 }
 #toast.show{opacity:1;transform:translate(-50%,0)}
-
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:50;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px
+ position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:18px
 }
 .modal.open{display:flex}
 .modal-backdrop{position:absolute;inset:0;background:#000c;backdrop-filter:blur(9px)}
 .modal-card{
-  position:relative;
-  z-index:1;
-  width:min(100%,460px);
-  max-height:92dvh;
-  overflow:auto;
-  border:1px solid #334764;
-  border-radius:22px;
-  background:linear-gradient(155deg,#14243a,#070c16);
-  box-shadow:0 25px 90px #000b;
-  animation:pop .2s ease
+ position:relative;z-index:1;width:min(100%,460px);max-height:92dvh;overflow:auto;
+ border:1px solid #334764;border-radius:22px;background:linear-gradient(155deg,#14243a,#070c16);
+ box-shadow:0 25px 90px #000b;animation:pop .2s ease
 }
-@keyframes pop{
-  from{opacity:0;transform:translateY(10px) scale(.98)}
-  to{opacity:1;transform:none}
-}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
 .close{
-  position:absolute;
-  right:12px;
-  top:12px;
-  z-index:2;
-  width:40px;
-  height:40px;
-  border:1px solid #ffffff44;
-  border-radius:50%;
-  background:#050914cc;
-  color:#fff;
-  font-size:28px;
-  cursor:pointer
+ position:absolute;right:12px;top:12px;z-index:2;width:40px;height:40px;
+ border:1px solid #ffffff44;border-radius:50%;background:#050914cc;color:#fff;font-size:28px;cursor:pointer
 }
 .modal-image{display:block;width:100%;height:220px;object-fit:cover;background:#101827}
 .modal-content{padding:20px}
@@ -212,160 +106,112 @@ footer{text-align:center;color:#71829d;font-size:10px;letter-spacing:2px;margin:
 .modal-content h2{font-size:25px;margin:7px 0;color:#ffc928}
 .description{color:#aab8ce;font-size:13px;margin-bottom:18px}
 .modal-content label{display:block;font-size:12px;color:#c5d0e1;margin:14px 0 7px}
-.modal-content select,.quantity-row input,.customer-input{
-  width:100%;
-  border:1px solid #344862;
-  background:#08111f;
-  color:#fff;
-  border-radius:10px;
-  padding:12px;
-  font-size:15px;
-  outline:none
+.modal-content select,.quantity-row input,.customer-input,.admin-input{
+ width:100%;border:1px solid #344862;background:#08111f;color:#fff;
+ border-radius:10px;padding:12px;font-size:15px;outline:none
 }
+.modal-content select:focus,.customer-input:focus,.admin-input:focus{border-color:#ffc928}
 .price-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:15px 0;
-  margin-top:8px;
-  border-bottom:1px solid #263750;
-  color:#aab8ce
+ display:flex;justify-content:space-between;align-items:center;gap:10px;
+ padding:15px 0;margin-top:8px;border-bottom:1px solid #263750;color:#aab8ce
 }
 .price-row strong{color:#ffc928;font-size:21px}
 .quantity-row{display:flex;gap:10px}
 .quantity-row button{
-  width:48px;
-  flex-shrink:0;
-  border:1px solid #344862;
-  border-radius:10px;
-  background:#17263d;
-  color:#ffc928;
-  font-size:24px;
-  cursor:pointer
+ width:48px;flex-shrink:0;border:1px solid #344862;border-radius:10px;
+ background:#17263d;color:#ffc928;font-size:24px;cursor:pointer
 }
 .quantity-row input{text-align:center}
 .order-button{
-  width:100%;
-  margin-top:18px;
-  padding:15px;
-  border:0;
-  border-radius:12px;
-  background:#25d366;
-  color:#062b14;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer
+ width:100%;margin-top:18px;padding:15px;border:0;border-radius:12px;
+ background:#25d366;color:#062b14;font-size:15px;font-weight:900;cursor:pointer
 }
 .order-button:hover{filter:brightness(1.07)}
 .cart-items{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 .cart-line{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px;
-  padding:12px;
-  border:1px solid #2a3d58;
-  border-radius:12px;
-  background:#0a1322
+ display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px;
+ border:1px solid #2a3d58;border-radius:12px;background:#0a1322
 }
 .cart-line strong{color:#ffc928;font-size:14px}
 .cart-line small{display:block;color:#aab8ce;margin-top:4px}
 .cart-line-actions{display:flex;align-items:center;gap:7px;margin-top:8px;flex-wrap:wrap}
 .cart-line-actions button{
-  border:1px solid #344862;
-  background:#17263d;
-  color:#fff;
-  border-radius:8px;
-  padding:5px 9px;
-  cursor:pointer
+ border:1px solid #344862;background:#17263d;color:#fff;border-radius:8px;padding:5px 9px;cursor:pointer
 }
 .cart-line-actions .remove{color:#ff9a9a}
 .empty-cart{color:#aab8ce;font-size:13px;padding:14px 0}
 .customer-input{font-size:14px}
 .cart-card .modal-content{padding-top:28px}
 .delivery-label{
-  display:flex!important;
-  align-items:center;
-  gap:10px;
-  margin:16px 0!important;
-  cursor:pointer
+ display:flex!important;align-items:center;gap:10px;margin:16px 0!important;cursor:pointer
 }
 .delivery-label input{width:20px;height:20px;accent-color:#ffc928}
 .small-note{font-size:10px;line-height:1.5;color:#8191aa;margin-top:12px}
 body.modal-open{overflow:hidden}
 
-@media(min-width:620px){
-  .menu{grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
-  .dish span{padding:15px 5px}
+/* نافذة الرقم السري ولوحة الإدارة */
+.admin-card{width:min(100%,440px)}
+.admin-card .modal-content{padding-top:30px}
+.admin-input{font-size:20px;letter-spacing:5px;text-align:center}
+.admin-error{color:#ff9696;font-size:12px;margin-top:10px;min-height:16px}
+.admin-button{
+ width:100%;padding:13px;margin-top:12px;border:1px solid #ffc928;border-radius:11px;
+ background:#ffc928;color:#101522;font-weight:900;font-size:14px;cursor:pointer
 }
-@media(max-height:700px){
-  .modal-image{height:150px}
-  .modal-content{padding:15px}
+.admin-button.secondary{background:#101a2b;color:#fff;border-color:#344762}
+.admin-categories{display:flex;flex-direction:column;gap:9px;margin-top:16px}
+.admin-category{
+ display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #2a3d58;
+ border-radius:10px;background:#0a1322;color:#f6f8fc;font-size:14px
 }
-@media(prefers-reduced-motion:reduce){
-  *{transition:none!important;animation:none!important}
-}
+.admin-category input{width:20px;height:20px;accent-color:#ffc928}
+.admin-note{font-size:11px;color:#98a8c1;line-height:1.6;margin-top:12px}
+.admin-actions{display:flex;gap:9px;flex-wrap:wrap}
+.admin-actions .admin-button{flex:1;min-width:120px}
+@media(min-width:620px){.menu{grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.dish span{padding:15px 5px}}
+@media(max-height:700px){.modal-image{height:150px}.modal-content{padding:15px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 
 <body>
 <header>
-  <div class="logo">ILYM <b>PIZZA</b></div>
+  <div class="logo" id="secretAdminTrigger" title="ILYM PIZZA">ILYM <b>PIZZA</b></div>
   <p>FRESH FOOD · GOOD MOOD</p>
   <div class="rule"></div>
 </header>
 
 <div class="cart-bar">
-  <button id="openCart" type="button">
-    🛒 Voir le panier <span id="cartCount">0</span>
-  </button>
+  <button id="openCart" type="button">🛒 Voir le panier <span id="cartCount">0</span></button>
 </div>
 
-<main class="menu">
+<main class="menu" id="mainMenu">
   <button class="dish" type="button" data-name="Poutine">
-    <img loading="lazy" src="https://i.ibb.co/nqZw4rNF/d1825eba0664093abdb14ade79d7d444.jpg" alt="Poutine">
-    <span>POUTINE</span>
+    <img loading="lazy" src="https://i.ibb.co/nqZw4rNF/d1825eba0664093abdb14ade79d7d444.jpg" alt="Poutine"><span>POUTINE</span>
   </button>
-
   <button class="dish" type="button" data-name="Ma9loub">
-    <img loading="lazy" src="https://i.ibb.co/C3QJ42Jq/images-2.jpg" alt="Ma9loub">
-    <span>MA9LOUB</span>
+    <img loading="lazy" src="https://i.ibb.co/C3QJ42Jq/images-2.jpg" alt="Ma9loub"><span>MA9LOUB</span>
   </button>
-
   <button class="dish" type="button" data-name="Plat">
-    <img loading="lazy" src="https://i.ibb.co/D0JFQ9M/Screenshot-20261012-230303-Chat-GPT.jpg" alt="Plat">
-    <span>PLAT</span>
+    <img loading="lazy" src="https://i.ibb.co/D0JFQ9M/Screenshot-20261012-230303-Chat-GPT.jpg" alt="Plat"><span>PLAT</span>
   </button>
-
   <button class="dish" type="button" data-name="Tacos">
-    <img loading="lazy" src="https://i.ibb.co/Fk8vJ64z/Screenshot-20261012-230250-Chat-GPT.jpg" alt="Tacos">
-    <span>TACOS</span>
+    <img loading="lazy" src="https://i.ibb.co/Fk8vJ64z/Screenshot-20261012-230250-Chat-GPT.jpg" alt="Tacos"><span>TACOS</span>
   </button>
-
   <button class="dish" type="button" data-name="Burger">
-    <img loading="lazy" src="https://i.ibb.co/TqY7kPWB/Screenshot-20261012-230244-Chat-GPT.jpg" alt="Burger">
-    <span>BURGER</span>
+    <img loading="lazy" src="https://i.ibb.co/TqY7kPWB/Screenshot-20261012-230244-Chat-GPT.jpg" alt="Burger"><span>BURGER</span>
   </button>
-
   <button class="dish" type="button" data-name="Pizza">
-    <img loading="lazy" src="https://i.ibb.co/J8BzM8Y/Screenshot-20261012-230238-Chat-GPT.jpg" alt="Pizza">
-    <span>PIZZA</span>
+    <img loading="lazy" src="https://i.ibb.co/J8BzM8Y/Screenshot-20261012-230238-Chat-GPT.jpg" alt="Pizza"><span>PIZZA</span>
   </button>
-
   <button class="dish" type="button" data-name="Fajitas">
-    <img loading="lazy" src="https://i.ibb.co/mrVTDP9j/Easy-Chicken-Fajitas-Horiz.jpg" alt="Fajitas">
-    <span>FAJITAS</span>
+    <img loading="lazy" src="https://i.ibb.co/mrVTDP9j/Easy-Chicken-Fajitas-Horiz.jpg" alt="Fajitas"><span>FAJITAS</span>
   </button>
-
   <button class="dish" type="button" data-name="Sandwich">
-    <img loading="lazy" src="https://i.ibb.co/nqMnsPSs/Pizza-Baciata-1.jpg" alt="Sandwich">
-    <span>SANDWICH</span>
+    <img loading="lazy" src="https://i.ibb.co/nqMnsPSs/Pizza-Baciata-1.jpg" alt="Sandwich"><span>SANDWICH</span>
   </button>
-
-  <!-- صورة المشروبات الجديدة -->
   <button class="dish" type="button" data-name="Boissons">
-    <img loading="lazy" src="https://i.ibb.co/xSVz2Zdg/f444108c3c165005c9e2fc3e76975e65.jpg" alt="Boissons">
-    <span>BOISSONS</span>
+    <img loading="lazy" src="https://i.ibb.co/xSVz2Zdg/f444108c3c165005c9e2fc3e76975e65.jpg" alt="Boissons"><span>BOISSONS</span>
   </button>
 </main>
 
@@ -379,7 +225,6 @@ body.modal-open{overflow:hidden}
     <a class="location-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=CF7G%2BM24%2C%20Dahmouni%2C%20Algeria" target="_blank" rel="noopener noreferrer">🧭 Itinéraire</a>
   </div>
 </section>
-
 <footer>ILYM PIZZA · BON APPÉTIT</footer>
 <div id="toast" role="status" aria-live="polite"></div>
 
@@ -391,39 +236,18 @@ body.modal-open{overflow:hidden}
     <div class="modal-content">
       <p class="eyebrow">ILYM PIZZA · COMMANDE</p>
       <h2 id="cartTitle">Votre panier</h2>
-
-      <div id="cartItems" class="cart-items">
-        <p class="empty-cart">Votre panier est vide.</p>
-      </div>
-
+      <div id="cartItems" class="cart-items"><p class="empty-cart">Votre panier est vide.</p></div>
       <label class="delivery-label" for="deliveryChoice">
-        <input id="deliveryChoice" type="checkbox">
-        <span>🚚 Livraison à domicile — +100 DA pour toute la commande</span>
+        <input id="deliveryChoice" type="checkbox"><span>🚚 Livraison à domicile — +100 DA pour toute la commande</span>
       </label>
-
-      <div class="price-row">
-        <span>Sous-total</span>
-        <strong id="cartSubtotal">0 DA</strong>
-      </div>
-      <div class="price-row">
-        <span>Frais de livraison</span>
-        <strong id="deliveryFee">0 DA</strong>
-      </div>
-      <div class="price-row">
-        <span>Total estimé</span>
-        <strong id="cartTotal">0 DA</strong>
-      </div>
-
+      <div class="price-row"><span>Sous-total</span><strong id="cartSubtotal">0 DA</strong></div>
+      <div class="price-row"><span>Frais de livraison</span><strong id="deliveryFee">0 DA</strong></div>
+      <div class="price-row"><span>Total estimé</span><strong id="cartTotal">0 DA</strong></div>
       <label for="customerName">Nom (facultatif)</label>
       <input id="customerName" class="customer-input" placeholder="Votre nom" maxlength="80">
-
       <label for="customerAddress">Adresse / livraison</label>
       <input id="customerAddress" class="customer-input" placeholder="Adresse ou retrait au restaurant" maxlength="180">
-
-      <button class="order-button" id="checkoutWhatsApp" type="button">
-        Confirmer la commande sur WhatsApp
-      </button>
-
+      <button class="order-button" id="checkoutWhatsApp" type="button">Confirmer la commande sur WhatsApp</button>
       <p class="small-note">Les prix sont indicatifs. Le restaurant confirmera la disponibilité et le total.</p>
     </div>
   </section>
@@ -435,152 +259,153 @@ body.modal-open{overflow:hidden}
   <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <button class="close" type="button" aria-label="Fermer" id="closeModal">×</button>
     <img id="modalImage" class="modal-image" alt="">
-
     <div class="modal-content">
       <p class="eyebrow">ILYM PIZZA · MENU</p>
       <h2 id="modalTitle">PIZZA</h2>
       <p id="modalDescription" class="description">Choisissez votre option.</p>
-
       <label for="variantSelect">Type / option</label>
       <select id="variantSelect"></select>
-
-      <div class="price-row">
-        <span>Prix estimé</span>
-        <strong id="modalPrice">— DA</strong>
-      </div>
-
+      <div class="price-row"><span>Prix estimé</span><strong id="modalPrice">— DA</strong></div>
       <label for="quantity">Quantité</label>
       <div class="quantity-row">
         <button type="button" id="minusQty" aria-label="Diminuer">−</button>
         <input id="quantity" type="number" min="1" max="20" value="1">
         <button type="button" id="plusQty" aria-label="Augmenter">+</button>
       </div>
-
       <button class="order-button" id="orderButton" type="button">Ajouter au panier 🛒</button>
       <p class="small-note">Le prix et les options sont indicatifs. Confirmez la commande avec le restaurant.</p>
     </div>
   </section>
 </div>
 
+<!-- نافذة الرقم السري -->
+<div class="modal" id="passwordModal" aria-hidden="true">
+  <div class="modal-backdrop" data-password-close="true"></div>
+  <section class="modal-card admin-card" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
+    <button class="close" type="button" id="closePassword" aria-label="Fermer">×</button>
+    <div class="modal-content">
+      <p class="eyebrow">ILYM PIZZA · ACCÈS ADMIN</p>
+      <h2 id="passwordTitle">🔐 Code secret</h2>
+      <p class="description">Entrez votre code numérique pour continuer.</p>
+      <form id="passwordForm">
+        <label for="adminPassword">Code secret</label>
+        <input class="admin-input" id="adminPassword" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="20" autocomplete="current-password" placeholder="••••••••" required>
+        <p id="passwordError" class="admin-error" aria-live="polite"></p>
+        <button class="admin-button" type="submit">Déverrouiller</button>
+      </form>
+      <p class="admin-note">Cette vérification côté navigateur n'est pas une protection forte contre quelqu'un qui peut lire le code source.</p>
+    </div>
+  </section>
+</div>
+
+<!-- لوحة إدارة إظهار وإخفاء الأقسام -->
+<div class="modal" id="adminModal" aria-hidden="true">
+  <div class="modal-backdrop" data-admin-close="true"></div>
+  <section class="modal-card admin-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <button class="close" type="button" id="closeAdmin" aria-label="Fermer">×</button>
+    <div class="modal-content">
+      <p class="eyebrow">ILYM PIZZA · ADMINISTRATION</p>
+      <h2 id="adminTitle">Gestion du menu</h2>
+      <p class="description">Cochez les catégories que vous voulez afficher aux clients.</p>
+      <div class="admin-actions">
+        <button type="button" class="admin-button secondary" id="selectAll">Tout afficher</button>
+        <button type="button" class="admin-button secondary" id="selectNone">Tout masquer</button>
+      </div>
+      <div id="adminCategories" class="admin-categories"></div>
+      <button type="button" class="admin-button" id="saveAdmin">Enregistrer les changements</button>
+      <button type="button" class="admin-button secondary" id="adminLogout">Verrouiller la gestion</button>
+      <p class="admin-note">Les changements sont enregistrés sur cet appareil et ce navigateur seulement.</p>
+    </div>
+  </section>
+</div>
+
 <script>
+const ADMIN_CODE = '14142027';
 const toast = document.getElementById('toast');
 let toastTimer;
 
 function showToast(message){
-  toast.textContent = message;
+  toast.textContent=message;
   toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  toastTimer=setTimeout(()=>toast.classList.remove('show'),2400);
 }
 
-const menuData = {
-  "Poutine":{
-    desc:"Poutine — choisissez votre recette.",
-    options:[["Poulet",400],["Mixte",500],["ILYM",700]]
-  },
-  "Ma9loub":{
-    desc:"Ma9loub — choisissez votre recette.",
-    options:[["Simple",400],["Tunisia",450],["Mixte",500]]
-  },
-  "Plat":{
-    desc:"Plat accompagné de frites et salade.",
-    options:[["Poulet",500],["Foie",600],["Merguez",600],["Forestière",650],["Mixte",650]]
-  },
-  "Tacos":{
-    desc:"Tacos grillé — choisissez votre recette.",
-    options:[["Poulet",400],["Viande hachée",450],["Mixte",500]]
-  },
-  "Burger":{
-    desc:"Burger — choisissez votre recette.",
-    options:[["Classic",300],["Poulet",250],["Mixte",400]]
-  },
-  "Pizza":{
-    desc:"Pizza maison — choisissez votre taille et votre recette.",
-    options:[
-      ["Marguerite M",250],
-      ["Végétarienne M",300],
-      ["Poulet M",350],
-      ["Viande hachée M",350],
-      ["Thon M",350],
-      ["Merguez M",350],
-      ["Mixte M",400],
-      ["3 fromages M",450],
-      ["4 fromages M",500],
-      ["Fumée M",500],
-      ["4 Saisons M",600],
-      ["ILYM M",700],
-      ["Poulet XL",1000],
-      ["Viande hachée XL",1000],
-      ["Thon XL",1000],
-      ["Merguez XL",1000],
-      ["Mixte XL",1200],
-      ["3 fromages XL",1300],
-      ["4 fromages XL",1500],
-      ["Fumée XL",1500],
-      ["4 Saisons XL",1600],
-      ["ILYM XL",1800]
-    ]
-  },
-  "Fajitas":{
-    desc:"Fajitas — choisissez votre recette.",
-    options:[["Poulet",350],["Mixte",400]]
-  },
-  "Sandwich":{
-    desc:"Sandwich grillé — choisissez votre recette.",
-    options:[
-      ["Spécial poulet haché",250],
-      ["Spécial viande hachée",300],
-      ["Mariné",300],
-      ["Foie en sauce",300],
-      ["Merguez en sauce",350],
-      ["Mixte",400]
-    ]
-  },
-  "Boissons":{
-    desc:"Choisissez votre boisson fraîche.",
-    options:[
-      ["Jus",70],
-      ["Gaz",70],
-      ["L'eau",30],
-      ["Jus 1L",150],
-      ["Gaz 1L",150],
-      ["L'eau 1.5L",50]
-    ]
-  }
+const menuData={
+ "Poutine":{desc:"Poutine — choisissez votre recette.",options:[["Poulet",400],["Mixte",500],["ILYM",700]]},
+ "Ma9loub":{desc:"Ma9loub — choisissez votre recette.",options:[["Simple",400],["Tunisia",450],["Mixte",500]]},
+ "Plat":{desc:"Plat accompagné de frites et salade.",options:[["Poulet",500],["Foie",600],["Merguez",600],["Forestière",650],["Mixte",650]]},
+ "Tacos":{desc:"Tacos grillé — choisissez votre recette.",options:[["Poulet",400],["Viande hachée",450],["Mixte",500]]},
+ "Burger":{desc:"Burger — choisissez votre recette.",options:[["Classic",300],["Poulet",250],["Mixte",400]]},
+ "Pizza":{desc:"Pizza maison — choisissez votre taille et votre recette.",options:[
+  ["Marguerite M",250],["Végétarienne M",300],["Poulet M",350],["Viande hachée M",350],
+  ["Thon M",350],["Merguez M",350],["Mixte M",400],["3 fromages M",450],["4 fromages M",500],
+  ["Fumée M",500],["4 Saisons M",600],["ILYM M",700],["Poulet XL",1000],
+  ["Viande hachée XL",1000],["Thon XL",1000],["Merguez XL",1000],["Mixte XL",1200],
+  ["3 fromages XL",1300],["4 fromages XL",1500],["Fumée XL",1500],["4 Saisons XL",1600],["ILYM XL",1800]
+ ]},
+ "Fajitas":{desc:"Fajitas — choisissez votre recette.",options:[["Poulet",350],["Mixte",400]]},
+ "Sandwich":{desc:"Sandwich grillé — choisissez votre recette.",options:[
+  ["Spécial poulet haché",250],["Spécial viande hachée",300],["Mariné",300],
+  ["Foie en sauce",300],["Merguez en sauce",350],["Mixte",400]
+ ]},
+ "Boissons":{desc:"Choisissez votre boisson fraîche.",options:[
+  ["Jus",70],["Gaz",70],["L'eau",30],["Jus 1L",150],["Gaz 1L",150],["L'eau 1.5L",50]
+ ]}
 };
 
-const modal = document.getElementById('dishModal');
-const modalImg = document.getElementById('modalImage');
-const modalTitle = document.getElementById('modalTitle');
-const modalDescription = document.getElementById('modalDescription');
-const variantSelect = document.getElementById('variantSelect');
-const modalPrice = document.getElementById('modalPrice');
-const quantity = document.getElementById('quantity');
-const cartModal = document.getElementById('cartModal');
+const categories=[...document.querySelectorAll('.dish')];
+const categoryNames=categories.map(button=>button.dataset.name);
+const STORAGE_KEY='ilym_enabled_foods';
 
-let currentDish = '';
+function getEnabledCategories(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(Array.isArray(saved)) return categoryNames.filter(name=>saved.includes(name));
+  }catch(e){}
+  return [...categoryNames];
+}
+
+let enabledCategories=getEnabledCategories();
+
+function applyEnabledCategories(){
+  categories.forEach(button=>{
+    button.hidden=!enabledCategories.includes(button.dataset.name);
+  });
+}
+
+applyEnabledCategories();
+
+const modal=document.getElementById('dishModal');
+const modalImg=document.getElementById('modalImage');
+const modalTitle=document.getElementById('modalTitle');
+const modalDescription=document.getElementById('modalDescription');
+const variantSelect=document.getElementById('variantSelect');
+const modalPrice=document.getElementById('modalPrice');
+const quantity=document.getElementById('quantity');
+const cartModal=document.getElementById('cartModal');
+const passwordModal=document.getElementById('passwordModal');
+const adminModal=document.getElementById('adminModal');
+let currentDish='';
 
 function openDish(button){
-  currentDish = button.dataset.name;
-  const data = menuData[currentDish];
-  if(!data) return;
-
-  modalTitle.textContent = currentDish.toUpperCase();
-  modalDescription.textContent = data.desc;
-  modalImg.src = button.querySelector('img').src;
-  modalImg.alt = currentDish;
+  currentDish=button.dataset.name;
+  const data=menuData[currentDish];
+  if(!data||!enabledCategories.includes(currentDish)) return;
+  modalTitle.textContent=currentDish.toUpperCase();
+  modalDescription.textContent=data.desc;
+  modalImg.src=button.querySelector('img').src;
+  modalImg.alt=currentDish;
   variantSelect.replaceChildren();
-
-  data.options.forEach((option,index) => {
-    const opt = document.createElement('option');
-    opt.value = String(index);
-    opt.textContent = option[0] + ' — ' + option[1] + ' DA';
-    opt.dataset.price = String(option[1]);
-    opt.dataset.label = option[0];
+  data.options.forEach((option,index)=>{
+    const opt=document.createElement('option');
+    opt.value=String(index);
+    opt.textContent=option[0]+' — '+option[1]+' DA';
+    opt.dataset.price=String(option[1]);
+    opt.dataset.label=option[0];
     variantSelect.appendChild(opt);
   });
-
-  quantity.value = '1';
+  quantity.value='1';
   updatePrice();
   modal.classList.add('open');
   modal.setAttribute('aria-hidden','false');
@@ -588,45 +413,33 @@ function openDish(button){
 }
 
 function updatePrice(){
-  const option = variantSelect.options[variantSelect.selectedIndex];
-  const price = option ? Number(option.dataset.price) : 0;
-  const qty = Math.max(1,Math.min(20,Number(quantity.value)||1));
-  quantity.value = String(qty);
-  modalPrice.textContent = (price*qty).toLocaleString('fr-FR') + ' DA';
+  const option=variantSelect.options[variantSelect.selectedIndex];
+  const price=option?Number(option.dataset.price):0;
+  const qty=Math.max(1,Math.min(20,Number(quantity.value)||1));
+  quantity.value=String(qty);
+  modalPrice.textContent=(price*qty).toLocaleString('fr-FR')+' DA';
 }
 
 function closeModal(){
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden','true');
-  if(!cartModal.classList.contains('open')){
+  if(![cartModal,passwordModal,adminModal].some(m=>m.classList.contains('open')))
     document.body.classList.remove('modal-open');
-  }
 }
 
-document.querySelectorAll('.dish').forEach(button => {
-  button.addEventListener('click',() => openDish(button));
-});
-
+categories.forEach(button=>button.addEventListener('click',()=>openDish(button)));
 variantSelect.addEventListener('change',updatePrice);
 quantity.addEventListener('change',updatePrice);
-
-document.getElementById('minusQty').addEventListener('click',() => {
-  quantity.value = String(Math.max(1,(Number(quantity.value)||1)-1));
-  updatePrice();
+document.getElementById('minusQty').addEventListener('click',()=>{
+  quantity.value=String(Math.max(1,(Number(quantity.value)||1)-1));updatePrice();
 });
-
-document.getElementById('plusQty').addEventListener('click',() => {
-  quantity.value = String(Math.min(20,(Number(quantity.value)||1)+1));
-  updatePrice();
+document.getElementById('plusQty').addEventListener('click',()=>{
+  quantity.value=String(Math.min(20,(Number(quantity.value)||1)+1));updatePrice();
 });
-
 document.getElementById('closeModal').addEventListener('click',closeModal);
+modal.addEventListener('click',event=>{if(event.target.dataset.close==='true')closeModal();});
 
-modal.addEventListener('click',event => {
-  if(event.target.dataset.close === 'true') closeModal();
-});
-
-const cart = [];
+const cart=[];
 
 function openCart(){
   renderCart();
@@ -634,187 +447,212 @@ function openCart(){
   cartModal.setAttribute('aria-hidden','false');
   document.body.classList.add('modal-open');
 }
-
 function closeCart(){
   cartModal.classList.remove('open');
   cartModal.setAttribute('aria-hidden','true');
-  if(!modal.classList.contains('open')){
+  if(![modal,passwordModal,adminModal].some(m=>m.classList.contains('open')))
     document.body.classList.remove('modal-open');
-  }
 }
 
 function renderCart(){
-  const wrap = document.getElementById('cartItems');
+  const wrap=document.getElementById('cartItems');
   wrap.replaceChildren();
-
   if(!cart.length){
-    const p = document.createElement('p');
-    p.className = 'empty-cart';
-    p.textContent = 'Votre panier est vide.';
-    wrap.appendChild(p);
+    const p=document.createElement('p');p.className='empty-cart';
+    p.textContent='Votre panier est vide.';wrap.appendChild(p);
   }
-
-  cart.forEach((item,index) => {
-    const line = document.createElement('div');
-    line.className = 'cart-line';
-
-    const info = document.createElement('div');
-    const title = document.createElement('strong');
-    title.textContent = item.name;
-
-    const detail = document.createElement('small');
-    detail.textContent = item.option + ' · ' +
-      item.price.toLocaleString('fr-FR') + ' DA / unité';
-
+  cart.forEach((item,index)=>{
+    const line=document.createElement('div');line.className='cart-line';
+    const info=document.createElement('div');
+    const title=document.createElement('strong');title.textContent=item.name;
+    const detail=document.createElement('small');
+    detail.textContent=item.option+' · '+item.price.toLocaleString('fr-FR')+' DA / unité';
     info.append(title,detail);
-
-    const amount = document.createElement('strong');
-    amount.textContent = (item.price*item.qty).toLocaleString('fr-FR') + ' DA';
-
-    const actions = document.createElement('div');
-    actions.className = 'cart-line-actions';
-
-    const minus = document.createElement('button');
-    minus.textContent = '−';
+    const amount=document.createElement('strong');
+    amount.textContent=(item.price*item.qty).toLocaleString('fr-FR')+' DA';
+    const actions=document.createElement('div');actions.className='cart-line-actions';
+    const minus=document.createElement('button');minus.textContent='−';
     minus.setAttribute('aria-label','Diminuer');
-    minus.onclick = () => {
-      item.qty--;
-      if(item.qty <= 0) cart.splice(index,1);
-      renderCart();
-    };
-
-    const qty = document.createElement('span');
-    qty.textContent = String(item.qty);
-
-    const plus = document.createElement('button');
-    plus.textContent = '+';
+    minus.onclick=()=>{item.qty--;if(item.qty<=0)cart.splice(index,1);renderCart();};
+    const qty=document.createElement('span');qty.textContent=String(item.qty);
+    const plus=document.createElement('button');plus.textContent='+';
     plus.setAttribute('aria-label','Augmenter');
-    plus.onclick = () => {
-      if(item.qty < 99) item.qty++;
-      renderCart();
-    };
-
-    const remove = document.createElement('button');
-    remove.className = 'remove';
-    remove.textContent = 'Supprimer';
-    remove.onclick = () => {
-      cart.splice(index,1);
-      renderCart();
-    };
-
-    actions.append(minus,qty,plus,remove);
-    info.appendChild(actions);
-    line.append(info,amount);
-    wrap.appendChild(line);
+    plus.onclick=()=>{if(item.qty<99)item.qty++;renderCart();};
+    const remove=document.createElement('button');remove.className='remove';remove.textContent='Supprimer';
+    remove.onclick=()=>{cart.splice(index,1);renderCart();};
+    actions.append(minus,qty,plus,remove);info.appendChild(actions);line.append(info,amount);wrap.appendChild(line);
   });
-
-  const subtotal = cart.reduce((sum,item) => sum + item.price*item.qty,0);
-  const delivery = document.getElementById('deliveryChoice').checked && cart.length ? 100 : 0;
-
-  document.getElementById('cartSubtotal').textContent =
-    subtotal.toLocaleString('fr-FR') + ' DA';
-  document.getElementById('deliveryFee').textContent =
-    delivery.toLocaleString('fr-FR') + ' DA';
-  document.getElementById('cartTotal').textContent =
-    (subtotal+delivery).toLocaleString('fr-FR') + ' DA';
-
-  document.getElementById('cartCount').textContent =
-    String(cart.reduce((sum,item) => sum + item.qty,0));
+  const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+  const delivery=document.getElementById('deliveryChoice').checked&&cart.length?100:0;
+  document.getElementById('cartSubtotal').textContent=subtotal.toLocaleString('fr-FR')+' DA';
+  document.getElementById('deliveryFee').textContent=delivery.toLocaleString('fr-FR')+' DA';
+  document.getElementById('cartTotal').textContent=(subtotal+delivery).toLocaleString('fr-FR')+' DA';
+  document.getElementById('cartCount').textContent=String(cart.reduce((sum,item)=>sum+item.qty,0));
 }
 
 document.getElementById('deliveryChoice').addEventListener('change',renderCart);
 document.getElementById('openCart').addEventListener('click',openCart);
 document.getElementById('closeCart').addEventListener('click',closeCart);
+cartModal.addEventListener('click',event=>{if(event.target.dataset.cartClose==='true')closeCart();});
 
-cartModal.addEventListener('click',event => {
-  if(event.target.dataset.cartClose === 'true') closeCart();
+document.getElementById('orderButton').addEventListener('click',()=>{
+  const option=variantSelect.options[variantSelect.selectedIndex];
+  if(!option)return;
+  const qty=Math.max(1,Math.min(20,Number(quantity.value)||1));
+  const price=Number(option.dataset.price);
+  const label=option.dataset.label;
+  const existing=cart.find(item=>item.name===currentDish&&item.option===label&&item.price===price);
+  if(existing)existing.qty=Math.min(99,existing.qty+qty);
+  else cart.push({name:currentDish,option:label,price,qty});
+  closeModal();renderCart();showToast('تمت الإضافة إلى السلة 🛒');
 });
 
-document.getElementById('orderButton').addEventListener('click',() => {
-  const option = variantSelect.options[variantSelect.selectedIndex];
-  if(!option) return;
-
-  const qty = Math.max(1,Math.min(20,Number(quantity.value)||1));
-  const price = Number(option.dataset.price);
-  const label = option.dataset.label;
-
-  const existing = cart.find(item =>
-    item.name === currentDish &&
-    item.option === label &&
-    item.price === price
-  );
-
-  if(existing){
-    existing.qty = Math.min(99,existing.qty+qty);
-  }else{
-    cart.push({
-      name:currentDish,
-      option:label,
-      price:price,
-      qty:qty
-    });
-  }
-
-  closeModal();
-  renderCart();
-  showToast('تمت الإضافة إلى السلة 🛒');
-});
-
-document.getElementById('checkoutWhatsApp').addEventListener('click',() => {
-  if(!cart.length){
-    showToast('السلة فارغة، زيد اختار واش تحب');
-    return;
-  }
-
-  const subtotal = cart.reduce((sum,item) => sum+item.price*item.qty,0);
-  const delivery = document.getElementById('deliveryChoice').checked ? 100 : 0;
-  const total = subtotal+delivery;
-
-  let message = 'Bonjour ILYM PIZZA ! Je souhaite confirmer cette commande :\n';
-
-  cart.forEach((item,index) => {
-    message += '\n' + (index+1) + '. ' + item.name + ' — ' +
-      item.option + ' x' + item.qty + ' = ' +
-      (item.price*item.qty).toLocaleString('fr-FR') + ' DA';
+document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
+  if(!cart.length){showToast('السلة فارغة، زيد اختار واش تحب');return;}
+  const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+  const delivery=document.getElementById('deliveryChoice').checked?100:0;
+  const total=subtotal+delivery;
+  let message='Bonjour ILYM PIZZA ! Je souhaite confirmer cette commande :\n';
+  cart.forEach((item,index)=>{
+    message+='\n'+(index+1)+'. '+item.name+' — '+item.option+' x'+item.qty+' = '+
+      (item.price*item.qty).toLocaleString('fr-FR')+' DA';
   });
-
-  message += '\n\nSous-total : ' + subtotal.toLocaleString('fr-FR') + ' DA';
-  message += '\nLivraison : ' +
-    (delivery ? '100 DA' : 'Retrait au restaurant — 0 DA');
-  message += '\nTOTAL À PAYER : ' + total.toLocaleString('fr-FR') + ' DA';
-
-  const name = document.getElementById('customerName').value.trim();
-  const address = document.getElementById('customerAddress').value.trim();
-
-  if(name) message += '\nNom : ' + name;
-  if(address) message += '\nAdresse / livraison : ' + address;
-
-  if(delivery && !address){
+  message+='\n\nSous-total : '+subtotal.toLocaleString('fr-FR')+' DA';
+  message+='\nLivraison : '+(delivery?'100 DA':'Retrait au restaurant — 0 DA');
+  message+='\nTOTAL À PAYER : '+total.toLocaleString('fr-FR')+' DA';
+  const name=document.getElementById('customerName').value.trim();
+  const address=document.getElementById('customerAddress').value.trim();
+  if(name)message+='\nNom : '+name;
+  if(address)message+='\nAdresse / livraison : '+address;
+  if(delivery&&!address){
     showToast('Ajoutez votre adresse de livraison');
-    document.getElementById('customerAddress').focus();
-    return;
+    document.getElementById('customerAddress').focus();return;
   }
-
-  message += '\nMerci de confirmer la disponibilité et le total.';
-
-  window.open(
-    'https://wa.me/213674817474?text=' + encodeURIComponent(message),
-    '_blank'
-  );
+  message+='\nMerci de confirmer la disponibilité et le total.';
+  window.open('https://wa.me/213674817474?text='+encodeURIComponent(message),'_blank');
 });
 
-document.addEventListener('keydown',event => {
-  if(event.key === 'Escape'){
-    closeModal();
-    closeCart();
+/* الدخول السري: الضغط على الشعار 5 ثوانٍ */
+const secretTrigger=document.getElementById('secretAdminTrigger');
+let pressTimer=null;
+let pressTriggered=false;
+
+function cancelLongPress(){
+  if(pressTimer!==null){clearTimeout(pressTimer);pressTimer=null;}
+}
+function startLongPress(event){
+  if(event.type==='contextmenu')event.preventDefault();
+  cancelLongPress();
+  pressTriggered=false;
+  pressTimer=setTimeout(()=>{
+    pressTimer=null;
+    pressTriggered=true;
+    openPasswordModal();
+  },5000);
+}
+secretTrigger.addEventListener('pointerdown',startLongPress);
+secretTrigger.addEventListener('pointerup',cancelLongPress);
+secretTrigger.addEventListener('pointerleave',cancelLongPress);
+secretTrigger.addEventListener('pointercancel',cancelLongPress);
+secretTrigger.addEventListener('contextmenu',event=>event.preventDefault());
+
+function openPasswordModal(){
+  document.getElementById('adminPassword').value='';
+  document.getElementById('passwordError').textContent='';
+  passwordModal.classList.add('open');
+  passwordModal.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+  setTimeout(()=>document.getElementById('adminPassword').focus(),100);
+}
+function closePasswordModal(){
+  passwordModal.classList.remove('open');
+  passwordModal.setAttribute('aria-hidden','true');
+  if(![modal,cartModal,adminModal].some(m=>m.classList.contains('open')))
+    document.body.classList.remove('modal-open');
+}
+document.getElementById('closePassword').addEventListener('click',closePasswordModal);
+passwordModal.addEventListener('click',event=>{
+  if(event.target.dataset.passwordClose==='true')closePasswordModal();
+});
+document.getElementById('adminPassword').addEventListener('input',event=>{
+  event.target.value=event.target.value.replace(/\D/g,'');
+  document.getElementById('passwordError').textContent='';
+});
+document.getElementById('passwordForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  const entered=document.getElementById('adminPassword').value;
+  if(entered===ADMIN_CODE){
+    closePasswordModal();
+    openAdminModal();
+  }else{
+    document.getElementById('passwordError').textContent='Code incorrect. Réessayez.';
+    document.getElementById('adminPassword').value='';
+    document.getElementById('adminPassword').focus();
   }
 });
 
-/* Enregistrement unique du Service Worker */
+/* لوحة إدارة إظهار وإخفاء الأقسام */
+function renderAdminCategories(){
+  const wrap=document.getElementById('adminCategories');
+  wrap.replaceChildren();
+  categoryNames.forEach(name=>{
+    const label=document.createElement('label');
+    label.className='admin-category';
+    const checkbox=document.createElement('input');
+    checkbox.type='checkbox';
+    checkbox.value=name;
+    checkbox.checked=enabledCategories.includes(name);
+    const text=document.createElement('span');
+    text.textContent=name;
+    label.append(checkbox,text);
+    wrap.appendChild(label);
+  });
+}
+function openAdminModal(){
+  renderAdminCategories();
+  adminModal.classList.add('open');
+  adminModal.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+}
+function closeAdminModal(){
+  adminModal.classList.remove('open');
+  adminModal.setAttribute('aria-hidden','true');
+  if(![modal,cartModal,passwordModal].some(m=>m.classList.contains('open')))
+    document.body.classList.remove('modal-open');
+}
+document.getElementById('closeAdmin').addEventListener('click',closeAdminModal);
+adminModal.addEventListener('click',event=>{
+  if(event.target.dataset.adminClose==='true')closeAdminModal();
+});
+document.getElementById('selectAll').addEventListener('click',()=>{
+  document.querySelectorAll('#adminCategories input').forEach(input=>input.checked=true);
+});
+document.getElementById('selectNone').addEventListener('click',()=>{
+  document.querySelectorAll('#adminCategories input').forEach(input=>input.checked=false);
+});
+document.getElementById('saveAdmin').addEventListener('click',()=>{
+  enabledCategories=[...document.querySelectorAll('#adminCategories input:checked')].map(input=>input.value);
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(enabledCategories));}
+  catch(e){showToast('Impossible de sauvegarder sur cet appareil');return;}
+  applyEnabledCategories();
+  closeAdminModal();
+  showToast('Menu mis à jour avec succès ✅');
+});
+document.getElementById('adminLogout').addEventListener('click',()=>{
+  closeAdminModal();
+  showToast('Gestion verrouillée 🔒');
+});
+
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){
+    closeModal();closeCart();closePasswordModal();closeAdminModal();
+  }
+});
+
 if('serviceWorker' in navigator){
-  window.addEventListener('load',() => {
+  window.addEventListener('load',()=>{
     navigator.serviceWorker.register('./sw.js')
-      .catch(error => console.error('Service Worker error:',error));
+      .catch(error=>console.error('Service Worker error:',error));
   });
 }
 </script>
