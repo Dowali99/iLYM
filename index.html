@@ -1,4 +1,6 @@
-<html lang="fr"><head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050914">
@@ -24,18 +26,8 @@ header p{margin-top:8px;color:#98a8c1;font-size:11px;letter-spacing:3px}
 .rule{width:86px;height:3px;border-radius:9px;background:#ffc928;margin:16px auto 0;box-shadow:0 0 18px #ffc92866}
 
 .menu{width:100%;max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.dish{
- appearance:none;display:block;min-width:0;overflow:hidden;text-align:left;
- border:1px solid #253751;border-radius:17px;
- background:linear-gradient(145deg,#14243a,#0a1120);color:white;
- cursor:pointer;box-shadow:0 12px 28px #0005;
- transition:transform .22s,border-color .22s,box-shadow .22s;
- padding:0;-webkit-tap-highlight-color:transparent
-}
-.dish:hover,.dish:focus-visible{
- border-color:#ffc928;box-shadow:0 0 0 1px #ffc92844,0 15px 35px #0008;
- outline:none;transform:translateY(-3px)
-}
+.dish{appearance:none;display:block;min-width:0;overflow:hidden;text-align:left;border:1px solid #253751;border-radius:17px;background:linear-gradient(145deg,#14243a,#0a1120);color:white;cursor:pointer;box-shadow:0 12px 28px #0005;transition:transform .22s,border-color .22s,box-shadow .22s;padding:0;-webkit-tap-highlight-color:transparent}
+.dish:hover,.dish:focus-visible{border-color:#ffc928;box-shadow:0 0 0 1px #ffc92844,0 15px 35px #0008;outline:none;transform:translateY(-3px)}
 .dish:active{transform:scale(.97)}
 .dish img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#111827}
 .dish span{display:block;text-align:center;padding:14px 6px;color:#ffc928;font-weight:800;letter-spacing:1.2px;font-size:clamp(12px,3vw,15px)}
@@ -54,7 +46,6 @@ footer{text-align:center;color:#71829d;font-size:10px;letter-spacing:2px;margin:
 
 #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#ffc928;color:#101522;padding:12px 20px;border-radius:12px;font-weight:800;box-shadow:0 8px 30px #0008;transition:.2s;max-width:90vw;text-align:center;z-index:100}
 #toast.show{opacity:1;transform:translate(-50%,0)}
-
 .modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:18px}
 .modal.open{display:flex}
 .modal-backdrop{position:absolute;inset:0;background:#000c;backdrop-filter:blur(9px)}
@@ -86,6 +77,8 @@ footer{text-align:center;color:#71829d;font-size:10px;letter-spacing:2px;margin:
 .customer-input{font-size:14px}
 .cart-card .modal-content{padding-top:28px}
 .small-note{font-size:10px;line-height:1.5;color:#8191aa;margin-top:12px}
+.delivery-label{display:flex!important;align-items:center;gap:10px;margin:16px 0!important;cursor:pointer}
+.delivery-label input{width:20px;height:20px;accent-color:#ffc928}
 body.modal-open{overflow:hidden}
 
 @media(min-width:620px){.menu{grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.dish span{padding:15px 5px}}
@@ -93,13 +86,9 @@ body.modal-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
-<link rel="manifest" href="./manifest.json">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4b6cb7">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="icon.png">
-</head>
+<link rel="apple-touch-icon" href="icon.png"></head>
 
 <body>
 <header>
@@ -113,58 +102,25 @@ body.modal-open{overflow:hidden}
 </div>
 
 <main class="menu">
- <button class="dish" type="button" data-name="Poutine">
-  <img loading="lazy" src="https://i.ibb.co/nqZw4rNF/d1825eba0664093abdb14ade79d7d444.jpg" alt="Poutine">
-  <span>POUTINE</span>
- </button>
-
- <button class="dish" type="button" data-name="Ma9loub">
-  <img loading="lazy" src="https://i.ibb.co/C3QJ42Jq/images-2.jpg" alt="Ma9loub">
-  <span>MA9LOUB</span>
- </button>
-
- <button class="dish" type="button" data-name="Plat">
-  <img loading="lazy" src="https://i.ibb.co/D0JFQ9M/Screenshot-20261012-230303-Chat-GPT.jpg" alt="Plat">
-  <span>PLAT</span>
- </button>
-
- <button class="dish" type="button" data-name="Tacos">
-  <img loading="lazy" src="https://i.ibb.co/Fk8vJ64z/Screenshot-20261012-230250-Chat-GPT.jpg" alt="Tacos">
-  <span>TACOS</span>
- </button>
-
- <button class="dish" type="button" data-name="Burger">
-  <img loading="lazy" src="https://i.ibb.co/TqY7kPWB/Screenshot-20261012-230244-Chat-GPT.jpg" alt="Burger">
-  <span>BURGER</span>
- </button>
-
- <button class="dish" type="button" data-name="Pizza">
-  <img loading="lazy" src="https://i.ibb.co/J8BzM8Y/Screenshot-20261012-230238-Chat-GPT.jpg" alt="Pizza">
-  <span>PIZZA</span>
- </button>
-
- <button class="dish" type="button" data-name="Fajitas">
-  <img loading="lazy" src="https://i.ibb.co/mrVTDP9j/Easy-Chicken-Fajitas-Horiz.jpg" alt="Fajitas">
-  <span>FAJITAS</span>
- </button>
-
- <button class="dish" type="button" data-name="Sandwich">
-  <img loading="lazy" src="https://i.ibb.co/nqMnsPSs/Pizza-Baciata-1.jpg" alt="Sandwich">
-  <span>SANDWICH</span>
- </button>
-
- <button class="dish" type="button" data-name="Boissons">
-  <img loading="lazy" src="https://cdn-icons-png.flaticon.com/512/3050/3050158.png" alt="Boissons">
-  <span>BOISSONS</span>
- </button>
+ <button class="dish" type="button" data-name="Poutine"><img loading="lazy" src="https://i.ibb.co/nqZw4rNF/d1825eba0664093abdb14ade79d7d444.jpg" alt="Poutine"><span>POUTINE</span></button>
+ <button class="dish" type="button" data-name="Ma9loub"><img loading="lazy" src="https://i.ibb.co/C3QJ42Jq/images-2.jpg" alt="Ma9loub"><span>MA9LOUB</span></button>
+ <button class="dish" type="button" data-name="Plat"><img loading="lazy" src="https://i.ibb.co/D0JFQ9M/Screenshot-20261012-230303-Chat-GPT.jpg" alt="Plat"><span>PLAT</span></button>
+ <button class="dish" type="button" data-name="Tacos"><img loading="lazy" src="https://i.ibb.co/Fk8vJ64z/Screenshot-20261012-230250-Chat-GPT.jpg" alt="Tacos"><span>TACOS</span></button>
+ <button class="dish" type="button" data-name="Burger"><img loading="lazy" src="https://i.ibb.co/TqY7kPWB/Screenshot-20261012-230244-Chat-GPT.jpg" alt="Burger"><span>BURGER</span></button>
+ <button class="dish" type="button" data-name="Pizza"><img loading="lazy" src="https://i.ibb.co/J8BzM8Y/Screenshot-20261012-230238-Chat-GPT.jpg" alt="Pizza"><span>PIZZA</span></button>
+ <button class="dish" type="button" data-name="Fajitas"><img loading="lazy" src="https://i.ibb.co/mrVTDP9j/Easy-Chicken-Fajitas-Horiz.jpg" alt="Fajitas"><span>FAJITAS</span></button>
+ <button class="dish" type="button" data-name="Sandwich"><img loading="lazy" src="https://i.ibb.co/nqMnsPSs/Pizza-Baciata-1.jpg" alt="Sandwich"><span>SANDWICH</span></button>
+ <button class="dish" type="button" data-name="Boissons"><img loading="lazy" src="https://cdn-icons-png.flaticon.com/512/3050/3050158.png" alt="Boissons"><span>BOISSONS</span></button>
 </main>
 
 <section class="location-card" aria-label="Localisation du restaurant">
  <h2>📍 NOUS TROUVER</h2>
  <p>ILYМ PIZZA<br>CF7G+M24, Dahmouni, Tiaret, Algérie</p>
  <div class="location-actions">
-  <a class="location-link" href="https://www.google.com/maps/search/?api=1&amp;query=CF7G%2BM24%2C%20Dahmouni%2C%20Algeria" target="_blank" rel="noopener noreferrer">📍 Voir sur Google Maps</a>
-  <a class="location-link secondary" href="https://www.google.com/maps/dir/?api=1&amp;destination=CF7G%2BM24%2C%20Dahmouni%2C%20Algeria" target="_blank" rel="noopener noreferrer">🧭 Itinéraire</a>
+  <a class="location-link" href="https://www.google.com/maps/search/?api=1&amp;query=CF7G%2BM24%2C%20Dahmouni%2C%20Algeria" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
+  <a class="location-link secondary" href="https://wa.me/213674817474" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
+  <a class="location-link secondary" href="tel:+213674817474">📞 Appeler</a>
+  <a class="location-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=CF7G%2BM24%2C%20Dahmouni%2C%20Algeria" target="_blank" rel="noopener noreferrer">🧭 Itinéraire</a>
  </div>
 </section>
 
@@ -179,7 +135,16 @@ body.modal-open{overflow:hidden}
    <p class="eyebrow">ILYМ PIZZA · COMMANDE</p>
    <h2 id="cartTitle">Votre panier</h2>
    <div id="cartItems" class="cart-items"><p class="empty-cart">Votre panier est vide.</p></div>
+
+   <label class="delivery-label" for="deliveryChoice">
+    <input id="deliveryChoice" type="checkbox">
+    <span>🚚 Livraison à domicile — +100 DA pour toute la commande</span>
+   </label>
+
+   <div class="price-row"><span>Sous-total</span><strong id="cartSubtotal">0 DA</strong></div>
+   <div class="price-row"><span>Frais de livraison</span><strong id="deliveryFee">0 DA</strong></div>
    <div class="price-row"><span>Total estimé</span><strong id="cartTotal">0 DA</strong></div>
+
    <label for="customerName">Nom (facultatif)</label>
    <input id="customerName" class="customer-input" placeholder="Votre nom" maxlength="80">
    <label for="customerAddress">Adresse / livraison (facultatif)</label>
@@ -226,57 +191,30 @@ function showToast(message){
 }
 
 const menuData={
- "Poutine":{
-  desc:"Poutine — choisissez votre recette.",
-  options:[["Poulet",400],["Mixte",500],["ILYМ",700]]
- },
- "Ma9loub":{
-  desc:"Ma9loub — choisissez votre recette.",
-  options:[["Simple",400],["Tunisia",450],["Mixte",500]]
- },
- "Plat":{
-  desc:"Plat accompagné de frites et salade.",
-  options:[["Poulet",500],["Foie",600],["Merguez",600],["Forestière",650],["Mixte",650]]
- },
- "Tacos":{
-  desc:"Tacos grillé — choisissez votre recette.",
-  options:[["Poulet",400],["Viande hachée",450],["Mixte",500]]
- },
- "Burger":{
-  desc:"Burger — choisissez votre recette.",
-  options:[["Classic",300],["Poulet",250],["Mixte",400]]
- },
- "Pizza":{
-  desc:"Pizza maison — choisissez votre taille et votre recette.",
-  options:[
-   ["Marguerite M",250],["Végétarienne M",300],["Poulet M",350],
-   ["Viande hachée M",350],["Thon M",350],["Merguez M",350],
-   ["Mixte M",400],["3 fromages M",450],["4 fromages M",500],
-   ["Fumée M",500],["4 Saisons M",600],["ILYМ M",700],
-   ["Poulet XL",1000],["Viande hachée XL",1000],["Thon XL",1000],
-   ["Merguez XL",1000],["Mixte XL",1200],["3 fromages XL",1300],
-   ["4 fromages XL",1500],["Fumée XL",1500],["4 Saisons XL",1600],["ILYМ XL",1800]
-  ]
- },
- "Fajitas":{
-  desc:"Fajitas — choisissez votre recette.",
-  options:[["Poulet",350],["Mixte",400]]
- },
- "Sandwich":{
-  desc:"Sandwich grillé — choisissez votre recette.",
-  options:[
-   ["Spécial poulet haché",250],["Spécial viande hachée",300],
-   ["Mariné",300],["Foie en sauce",300],
-   ["Merguez en sauce",350],["Mixte",400]
-  ]
- },
- "Boissons":{
-  desc:"Choisissez votre boisson fraîche.",
-  options:[
-   ["Jus",70],["Gaz",70],["L'eau",30],
-   ["Jus 1L",150],["Gaz 1L",150],["L'eau 1.5L",50]
-  ]
- }
+ "Poutine":{desc:"Poutine — choisissez votre recette.",options:[["Poulet",400],["Mixte",500],["ILYМ",700]]},
+ "Ma9loub":{desc:"Ma9loub — choisissez votre recette.",options:[["Simple",400],["Tunisia",450],["Mixte",500]]},
+ "Plat":{desc:"Plat accompagné de frites et salade.",options:[["Poulet",500],["Foie",600],["Merguez",600],["Forestière",650],["Mixte",650]]},
+ "Tacos":{desc:"Tacos grillé — choisissez votre recette.",options:[["Poulet",400],["Viande hachée",450],["Mixte",500]]},
+ "Burger":{desc:"Burger — choisissez votre recette.",options:[["Classic",300],["Poulet",250],["Mixte",400]]},
+ "Pizza":{desc:"Pizza maison — choisissez votre taille et votre recette.",options:[
+  ["Marguerite M",250],["Végétarienne M",300],["Poulet M",350],
+  ["Viande hachée M",350],["Thon M",350],["Merguez M",350],
+  ["Mixte M",400],["3 fromages M",450],["4 fromages M",500],
+  ["Fumée M",500],["4 Saisons M",600],["ILYМ M",700],
+  ["Poulet XL",1000],["Viande hachée XL",1000],["Thon XL",1000],
+  ["Merguez XL",1000],["Mixte XL",1200],["3 fromages XL",1300],
+  ["4 fromages XL",1500],["Fumée XL",1500],["4 Saisons XL",1600],["ILYМ XL",1800]
+ ]},
+ "Fajitas":{desc:"Fajitas — choisissez votre recette.",options:[["Poulet",350],["Mixte",400]]},
+ "Sandwich":{desc:"Sandwich grillé — choisissez votre recette.",options:[
+  ["Spécial poulet haché",250],["Spécial viande hachée",300],
+  ["Mariné",300],["Foie en sauce",300],
+  ["Merguez en sauce",350],["Mixte",400]
+ ]},
+ "Boissons":{desc:"Choisissez votre boisson fraîche.",options:[
+  ["Jus",70],["Gaz",70],["L'eau",30],
+  ["Jus 1L",150],["Gaz 1L",150],["L'eau 1.5L",50]
+ ]}
 };
 
 const modal=document.getElementById('dishModal');
@@ -292,7 +230,6 @@ let currentDish='';
 function openDish(button){
  currentDish=button.dataset.name;
  const data=menuData[currentDish]||{desc:"Choisissez votre option.",options:[["Standard",0]]};
-
  modalTitle.textContent=currentDish.toUpperCase();
  modalDescription.textContent=data.desc;
  modalImg.src=button.querySelector('img').src;
@@ -426,10 +363,17 @@ function renderCart(){
   wrap.appendChild(line);
  });
 
- const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+ const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+ const delivery=document.getElementById('deliveryChoice').checked && cart.length ? 100 : 0;
+ const total=subtotal+delivery;
+
+ document.getElementById('cartSubtotal').textContent=subtotal.toLocaleString('fr-FR')+' DA';
+ document.getElementById('deliveryFee').textContent=delivery.toLocaleString('fr-FR')+' DA';
  document.getElementById('cartTotal').textContent=total.toLocaleString('fr-FR')+' DA';
  document.getElementById('cartCount').textContent=String(cart.reduce((sum,item)=>sum+item.qty,0));
 }
+
+document.getElementById('deliveryChoice').addEventListener('change',renderCart);
 
 document.getElementById('orderButton').addEventListener('click',()=>{
  const option=variantSelect.options[variantSelect.selectedIndex];
@@ -467,7 +411,10 @@ document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
   return;
  }
 
- const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+ const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+ const delivery=document.getElementById('deliveryChoice').checked?100:0;
+ const total=subtotal+delivery;
+
  let message='Bonjour ILYM PIZZA ! Je souhaite confirmer cette commande :\n';
 
  cart.forEach((item,i)=>{
@@ -475,12 +422,22 @@ document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
    ' = '+(item.price*item.qty).toLocaleString('fr-FR')+' DA';
  });
 
- message+='\n\nTotal estimé : '+total.toLocaleString('fr-FR')+' DA';
+ message+='\n\nSous-total : '+subtotal.toLocaleString('fr-FR')+' DA';
+ message+='\nLivraison : '+(delivery?'100 DA':'Retrait au restaurant — 0 DA');
+ message+='\nTOTAL À PAYER : '+total.toLocaleString('fr-FR')+' DA';
 
  const name=document.getElementById('customerName').value.trim();
  const address=document.getElementById('customerAddress').value.trim();
+
  if(name)message+='\nNom : '+name;
  if(address)message+='\nAdresse / livraison : '+address;
+
+ if(delivery&&!address){
+  showToast('Ajoutez votre adresse de livraison');
+  document.getElementById('customerAddress').focus();
+  return;
+ }
+
  message+='\nMerci de confirmer la disponibilité et le total.';
 
  window.open('https://wa.me/213674817474?text='+encodeURIComponent(message),'_blank');
@@ -495,15 +452,6 @@ if('serviceWorker' in navigator){
 }
 </script>
 
-
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker enregistré !'))
-        .catch(err => console.error('Erreur SW :', err));
-    });
-  }
-</script>
-</body></html>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
+</body>
+</html>
