@@ -1,4 +1,6 @@
-<html lang="fr"><head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050914">
@@ -103,11 +105,13 @@ footer{text-align:center;color:#71829d;font-size:10px;letter-spacing:2px;margin:
 .modal-content h2{font-size:25px;margin:7px 0;color:#ffc928}
 .description{color:#aab8ce;font-size:13px;margin-bottom:18px}
 .modal-content label{display:block;font-size:12px;color:#c5d0e1;margin:14px 0 7px}
+.modal-content label .required-star{color:#ff6b6b;margin-left:4px;font-weight:900}
 .modal-content select,.quantity-row input,.customer-input,.admin-input{
  width:100%;border:1px solid #344862;background:#08111f;color:#fff;
  border-radius:10px;padding:12px;font-size:15px;outline:none
 }
 .modal-content select:focus,.customer-input:focus,.admin-input:focus{border-color:#ffc928}
+.customer-input.invalid{border-color:#ff6b6b;box-shadow:0 0 0 2px #ff6b6b33}
 .price-row{
  display:flex;justify-content:space-between;align-items:center;gap:10px;
  padding:15px 0;margin-top:8px;border-bottom:1px solid #263750;color:#aab8ce
@@ -171,13 +175,6 @@ body.modal-open{overflow:hidden}
 @media(max-height:700px){.modal-image{height:150px}.modal-content{padding:15px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-
-<link rel="manifest" href="./manifest.json">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#4b6cb7">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="icon.png">
 </head>
 
 <body>
@@ -252,10 +249,17 @@ body.modal-open{overflow:hidden}
       <div class="price-row"><span>Sous-total</span><strong id="cartSubtotal">0 DA</strong></div>
       <div class="price-row"><span>Frais de livraison</span><strong id="deliveryFee">0 DA</strong></div>
       <div class="price-row"><span>Total à payer</span><strong id="cartTotal">0 DA</strong></div>
+
       <label for="customerName">Nom (facultatif)</label>
       <input id="customerName" class="customer-input" placeholder="Votre nom" maxlength="80">
-      <label for="customerAddress">Adresse / livraison</label>
-      <input id="customerAddress" class="customer-input" placeholder="Adresse de livraison" maxlength="180">
+
+      <label for="customerPhone">📞 Numéro de téléphone <span class="required-star">*</span></label>
+      <input id="customerPhone" class="customer-input" type="tel" inputmode="tel"
+             placeholder="Ex : 0674 81 74 74" maxlength="20" autocomplete="tel" required>
+
+      <label for="customerAddress">🏠 Adresse / livraison <span class="required-star">*</span></label>
+      <input id="customerAddress" class="customer-input" placeholder="Adresse de livraison" maxlength="180" required>
+
       <button class="order-button" id="checkoutWhatsApp" type="button">Confirmer la commande sur WhatsApp</button>
       <p class="small-note">Les prix sont indicatifs. Le restaurant confirmera la disponibilité et le total.</p>
     </div>
@@ -298,7 +302,7 @@ body.modal-open{overflow:hidden}
       <p class="description">Entrez votre code numérique pour continuer.</p>
       <form id="passwordForm">
         <label for="adminPassword">Code secret</label>
-        <input class="admin-input" id="adminPassword" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="20" autocomplete="current-password" placeholder="••••••••" required="">
+        <input class="admin-input" id="adminPassword" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="20" autocomplete="current-password" placeholder="••••••••" required>
         <p id="passwordError" class="admin-error" aria-live="polite"></p>
         <button class="admin-button" type="submit">Déverrouiller</button>
       </form>
@@ -521,7 +525,6 @@ function renderCart(){
   });
 
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
-  /* التوصيل ثابت: 100 DA إذا كانت السلة غير فارغة */
   const delivery=cart.length?DELIVERY_FEE:0;
 
   document.getElementById('cartSubtotal').textContent=subtotal.toLocaleString('fr-FR')+' DA';
@@ -546,18 +549,50 @@ document.getElementById('orderButton').addEventListener('click',()=>{
   closeModal();renderCart();showToast('تمت الإضافة إلى السلة 🛒');
 });
 
+/* تحقق من صحة رقم الهاتف */
+function isValidPhone(phone){
+  const cleaned=phone.replace(/[\s\-\.\(\)]/g,'');
+  /* يقبل أرقاماً بين 9 و 15 رقماً، اختياري بادئة + */
+  return /^\+?\d{9,15}$/.test(cleaned);
+}
+
 document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
   if(!cart.length){showToast('السلة فارغة، زيد اختار واش تحب');return;}
+
+  const phoneInput=document.getElementById('customerPhone');
+  const addressInput=document.getElementById('customerAddress');
+
+  const phone=phoneInput.value.trim();
+  const address=addressInput.value.trim();
+
+  phoneInput.classList.remove('invalid');
+  addressInput.classList.remove('invalid');
+
+  /* التحقق من رقم الهاتف (إجباري) */
+  if(!phone){
+    showToast('📞 الرجاء إدخال رقم الهاتف');
+    phoneInput.classList.add('invalid');
+    phoneInput.focus();
+    return;
+  }
+  if(!isValidPhone(phone)){
+    showToast('رقم الهاتف غير صحيح');
+    phoneInput.classList.add('invalid');
+    phoneInput.focus();
+    return;
+  }
+
+  /* التحقق من العنوان (إجباري) */
+  if(!address){
+    showToast('🏠 الرجاء إدخال عنوان التوصيل');
+    addressInput.classList.add('invalid');
+    addressInput.focus();
+    return;
+  }
+
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
   const delivery=DELIVERY_FEE;
   const total=subtotal+delivery;
-
-  const address=document.getElementById('customerAddress').value.trim();
-  if(!address){
-    showToast('Ajoutez votre adresse de livraison');
-    document.getElementById('customerAddress').focus();
-    return;
-  }
 
   let message='Bonjour ILYM PIZZA ! Je souhaite confirmer cette commande :\n';
   cart.forEach((item,index)=>{
@@ -567,11 +602,21 @@ document.getElementById('checkoutWhatsApp').addEventListener('click',()=>{
   message+='\n\nSous-total : '+subtotal.toLocaleString('fr-FR')+' DA';
   message+='\nLivraison : '+delivery+' DA (fixe)';
   message+='\nTOTAL À PAYER : '+total.toLocaleString('fr-FR')+' DA';
+
   const name=document.getElementById('customerName').value.trim();
   if(name)message+='\nNom : '+name;
-  message+='\nAdresse / livraison : '+address;
-  message+='\nMerci de confirmer la disponibilité et le total.';
+  message+='\n📞 Téléphone : '+phone;
+  message+='\n🏠 Adresse : '+address;
+  message+='\n\nMerci de confirmer la disponibilité et le total.';
   window.open('https://wa.me/213674817474?text='+encodeURIComponent(message),'_blank');
+});
+
+/* إزالة التنبيه الأحمر عند الكتابة */
+document.getElementById('customerPhone').addEventListener('input',event=>{
+  event.target.classList.remove('invalid');
+});
+document.getElementById('customerAddress').addEventListener('input',event=>{
+  event.target.classList.remove('invalid');
 });
 
 /* الدخول السري: الضغط على الشعار 3 ثوانٍ */
@@ -587,7 +632,7 @@ function startLongPress(event){
   pressTimer=setTimeout(()=>{
     pressTimer=null;
     openPasswordModal();
-  },3000); /* ← 3 ثواني */
+  },3000);
 }
 secretTrigger.addEventListener('pointerdown',startLongPress);
 secretTrigger.addEventListener('pointerup',cancelLongPress);
@@ -709,15 +754,5 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
-
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker enregistré !'))
-        .catch(err => console.error('Erreur SW :', err));
-    });
-  }
-</script>
-</body></html>
+</body>
+</html>
